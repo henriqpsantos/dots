@@ -55,10 +55,10 @@ local M = {
 	font_size = 12,
 
 	tab_max_width = 24,
-	window_background_image = './hex2.jpg',
-	window_background_image_hsb = {
-		brightness = 0.4,
-	}
+	window_close_confirmation = "NeverPrompt",
+	show_tab_index_in_tab_bar = true,
+	hide_tab_bar_if_only_one_tab = false,
+	window_background_opacity = 0.95,
 }
 
 return M
