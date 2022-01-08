@@ -1,0 +1,19 @@
+format="$all$time$shell$character"
+
+[shell]
+nu_indicator = "[Nu](bold green)"
+disabled = false
+
+[time]
+disabled = false
+format = '[\[ $time \]]($style) '
+time_format = "%T"
+utc_time_offset = "+1"
+time_range = "00:00:00-24:00:00"
+
+[lua]
+symbol = ""
+
+[python]
+symbol = " "
+

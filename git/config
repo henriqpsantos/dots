@@ -1,0 +1,22 @@
+[user]
+	email = henriquepsantos@gmail.com
+	name = dartacao
+[core]
+	editor = nvim
+[pager]
+	diff = delta
+	show = delta
+	log = delta
+	reflog = delta
+
+[delta]
+	line-numbers = true
+	side-by-side = true
+	colorMoved = default
+
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+
+[credential]
+	helper = 
+	helper = C:/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
