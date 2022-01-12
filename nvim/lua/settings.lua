@@ -8,33 +8,52 @@ local cmd = vim.cmd
 cmd ('filetype plugin indent on')
 cmd ('syntax enable')
 
---> SETTINGS <--
-o.inccommand	= 'nosplit'
-o.clipboard		= 'unnamedplus'
+-- {{{ FOLDS
+wo.foldmethod	= 'expr'
+wo.foldexpr		= 'nvim_treesitter#foldexpr()'
+o.foldlevel		= 9
+o.foldtext = [[substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+o.foldminlines	= 3
+-- }}}
+
+-- {{{
+--
+--
+--
+-- }}}
+
+o.inccommand	= 'split'			--> Show incremental search results
+o.clipboard		= 'unnamedplus' 	--> Clipboard prog
 o.swapfile		= false
-o.tabstop		= 4
+o.tabstop		= 4					--> Tabs > Spaces fight me
 o.shiftwidth	= 4
 o.textwidth		= 0
 o.ignorecase	= true
 o.smartcase		= true
-o.smarttab		= false
-o.smartindent	= false
+o.smarttab		= true
+o.smartindent	= true
 o.autoindent	= false
+
+o.showmatch		= true
 o.showmode		= false
+
 o.wrap			= false
+
 o.splitright	= true
 o.splitbelow	= true
 o.termguicolors = true
 o.number		= true
 o.relativenumber= true
+
 o.lazyredraw	= false
+
 o.cursorline	= true
 o.conceallevel	= 2
 o.completeopt	= 'menuone,noselect'
 o.encoding		= 'UTF-8'
 o.fileformats	= 'dos,unix'
 
-o.updatetime	= 750
+o.updatetime	= 500
 
 g.spelllang		= 'en'
 
@@ -68,5 +87,10 @@ fdignore = {
 	'%.ttf',
 	'%.mp3',
 	'%.sfd',
+	'%.fmt',
+	'%.jpg',
+	'%.png',
+	'BUILD\\.',
+	'Figures\\compile\\%.log',
 }
 
