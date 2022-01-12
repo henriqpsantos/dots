@@ -74,7 +74,7 @@ map('', '<C-F2>', 	'<cmd>e $MYVIMRC<CR>', s)
 --> Commonly visited dirs
 map('', '<F4>',  ':cd '..vimhome..'<CR>')
 map('', '<F5>',  ':cd '..vimhome..'/thesis/Tandem<CR>')
-map('', '<F6>',	 ':cd '..vimhome..'/thesis/TandemPres<CR>')
+map('', '<F6>',	 ':cd '..vimhome..'/thesis/TandemArticle<CR>')
 map('', '<F7>',  ':cd '..vimhome..'/thesis/TandemAbstract<CR>')
 
 map('', '<F9>',  ':cd '..vimhome..'/projects<CR>')
