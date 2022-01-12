@@ -1,5 +1,14 @@
 local M = {}
 
+function M.format(file, prog_type)
+	if prog_type == "cpp" then
+		local clang_cfg = vim.env.XDG_CONFIG_HOME .. "/clang-format/clang-format"
+		vim.fn.system(string.format("clang-format %s -i --style=file:'%s'", file, clang_cfg))
+		-- require('prog').run_job(string.format("clang-format %s -i --style=file:'%s'", file, clang_cfg))
+	end
+	
+end
+
 function M.reload_plugins()
 	require('prog').unload_module('plugcfg', false)
 	require('prog').unload_module('plugins', false)
@@ -27,7 +36,8 @@ end
 function M.get_battery_indicator()
 	local batt_tb = {' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'} 
 	--> This looks disgusting here, but good on lualine
-	return string.format('▕%s▏%s%d%s', batt_tb[math.floor((_batt) / (101 / #batt_tb)) + 1], '(', _batt, '%%) ')
+	local battery_icon = batt_tb[math.floor((_batt) / (101 / #batt_tb)) + 1]
+	return string.format('▕%s▏%s%d%s', battery_icon, _batt, '%%) ')
 end
 
 function M.get_treesitter_status()
@@ -76,7 +86,6 @@ function M.plug_noload()
 		"logipat",
 		"rrhelper",
 		"spellfile_plugin",
-		-- "matchit",
 		"tutor_mode_plugin",
 	}
 
