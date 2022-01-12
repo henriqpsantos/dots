@@ -8,6 +8,7 @@ startup = [
 	'alias wgi = sudo winget install',
 	'alias wgu = sudo winget uninstall',
 
+	'def edit [...f] {if (($f | length) > 0) {start ($f | str collect " ") -a neovide} {start . -a neovide} }',
 	'def backup_year [YEAR] {robocopy $"F:\\Arquivo HS\\Arquivo\\($YEAR)" $"\\Backup\\sda2\\henrique\\fotos\\arquivo\\($YEAR)" /MT:4 /Z /XO /XX /XN /S}',
 
 	"let-env STARSHIP_CONFIG = $'(echo ~/Dropbox/Dev/.config/starship/config.toml | path expand)'",
@@ -20,6 +21,7 @@ startup = [
 
 	"source C:/util/starship/init.nu",
 ]
+
 skip_welcome_message = true
 table_mode = "rounded"
 pivot_mode = "always" # auto, always, never
