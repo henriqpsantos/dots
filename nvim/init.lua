@@ -19,9 +19,11 @@ vim.cmd('command! Jf :e .justfile<CR>')
 vim.cmd('command! PSync :lua require("plugins").sync()<CR>') 
 vim.cmd('command! PComp :lua require("plugins").compile()<CR>') 
 
-vim.cmd('autocmd FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None')
+vim.cmd('au FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None')
 vim.cmd('au BufWritePost plug*.lua lua require("util").reload_plugins()')
 vim.cmd('au BufWritePost *.tex Build')
+
+-- vim.cmd('au BufWritePost *.cpp,*.h lua require("util").format(vim.fn.expand("%"), "cpp")')
 
 --> FIXME: Eventually run Build in the background on tex files
 

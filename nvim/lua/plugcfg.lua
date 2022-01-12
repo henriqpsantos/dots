@@ -1,77 +1,85 @@
 M = {}
 
--- NOTE(h): THIS IS TEXT
--- NOTE(h): THIS IS TEXT
--- NOTE: THIS IS TEXT
+--{{{ TODOCOMMENTS
 M.todocomments = function()
-	require'todo-comments'.setup { 
-		merge_keywords = false,
-		signs = false,
-		highlight = {
-			before = "",
-			keyword = "bg",
-			after = "fg",
-			pattern = {[[.*<(KEYWORDS)(\([^\)]*\))?:]]},
-		},
-		pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]],
-	}
+require'todo-comments'.setup { 
+	merge_keywords = false,
+	signs = false,
+	highlight = {
+		before = "",
+		keyword = "bg",
+		after = "fg",
+		pattern = {[[.*<(KEYWORDS)(\([^\)]*\))?:]]},
+	},
+	pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]],
+}
 end
+--}}}
 
+--{{{ TREESITTER
 M.treesitter = function()
-	require'nvim-treesitter.configs'.setup {
-		ensure_installed = {'c', 'python', 'latex', 'lua', 'cpp', 'rust'},
-		highlight = { enable = true },
-		autopairs = { enable = true },
-		-- rainbow = {
-		-- 	enable = true,
-		-- 	extended_mode = false,
-		-- },
-		refactor = {
-			highlight_definitions = { enable = true },
-			navigation = {
-				enable = true,
-				keymaps = {
-					goto_definition = 'gd',
-					list_definitions = 'gD',
-				},
-			},
-			smart_rename = {
-				enable = true,
-				keymaps = {
-					smart_rename = 'gr',
-				},
+require'nvim-treesitter.configs'.setup {
+	ensure_installed = {'c', 'python', 'latex', 'lua', 'cpp', 'rust'},
+	highlight = { enable = true },
+	autopairs = { enable = true },
+	rainbow = {
+		enable = true,
+		extended_mode = false,
+	},
+	refactor = {
+		highlight_definitions = { enable = true },
+		navigation = {
+			enable = true,
+			keymaps = {
+				goto_definition = 'gd',
+				list_definitions = 'gD',
 			},
 		},
-	}
-	require("nvim-treesitter.parsers").get_parser_configs().just = {
-		install_info = {
-			url = "https://github.com/IndianBoy42/tree-sitter-just", -- local path or git repo
-			files = { "src/parser.c", "src/scanner.cc" },
-			branch = "main",
+		smart_rename = {
+			enable = true,
+			keymaps = {
+				smart_rename = 'gr',
+			},
 		},
-		maintainers = {"@IndianBoy42"},
-	}
+	},
+}
+require("nvim-treesitter.parsers").get_parser_configs().just = {
+	install_info = {
+		url = "https://github.com/IndianBoy42/tree-sitter-just", -- local path or git repo
+		files = { "src/parser.c", "src/scanner.cc" },
+		branch = "main",
+	},
+	maintainers = {"@IndianBoy42"},
+}
 end
+--}}}
 
+--{{{ TOKYONIGHT
 M.tokyonight = function()
-	vim.g.tokyonight_style = 'night'
-	vim.g.tokyonight_sidebars = { "qf", "telescope", "terminal", "packer" }
-	vim.defer_fn(function() vim.cmd('colorscheme tokyonight') end, 0)
+vim.g.tokyonight_style = 'night'
+vim.g.tokyonight_sidebars = { "qf", "telescope", "terminal", "packer" }
+vim.defer_fn(function() vim.cmd('colorscheme tokyonight') end, 0)
 end
+--}}}
 
+--{{{ LSPCONFIG
 M.lspconfig = function() 
-	require'lspconfig'.jedi_language_server.setup{}
-	require'lspconfig'.texlab.setup{}
+require'lspconfig'.jedi_language_server.setup{}
+require'lspconfig'.texlab.setup{}
 end
+--}}}
 
+--{{{ LUASNIP
 M.luasnip = function()
-	require'luasnip'.config.set_config {
-		history = true,
-		updateevents = "TextChanged,TextChangedI"
-	}
+require'luasnip'.config.set_config {
+	history = true,
+	updateevents = "TextChanged,TextChangedI"
+}
 end
 
---> NOTE: Why would you do it like this
+--}}}
+
+--{{{ COQ
 M.coq = function()
 	vim.g.coq_settings = {
 		auto_start = true,
@@ -80,15 +88,25 @@ M.coq = function()
 				source_context = {'⎡', '⎦'},
 			},
 		},
+		clients = {
+			snippets = {
+				warn = {},
+			},
+		},
 	}
 end
+--}}}
 
+--{{{ COQPOST
 M.coqPost = function()
-	require("coq_3p") {
+	require("coq_3p"){
 		{ src = "vimtex", short_name = "vTEX" },
+		{ src = "nvimlua", short_name = "nLUA", conf_only = true },
 	}
 end
+--}}}
 
+--{{{ SPECS
 M.specs = function()
 	require('specs').setup{
 		show_jumps  = true,
@@ -108,30 +126,41 @@ M.specs = function()
 		},
 	}
 end
+--}}}
 
+--{{{ INDENTBLANKLINE
 M.indentblankline = function()
-	require("indent_blankline").setup {
-		char = "|",
-		buftype_exclude = {"terminal"}
-	}
+require("indent_blankline").setup {
+	char = "|",
+	buftype_exclude = {"terminal"}
+}
 end
+--}}}
 
+--{{{ AUTOPAIRS
 M.autopairs = function()
-	require'nvim-autopairs'.setup {
-		check_ts = true
-	}
+require'nvim-autopairs'.setup {
+	check_ts = true
+}
 end
+--}}}
 
+--{{{ SURROUND
 M.surround = function()
-	require'surround'.setup{
-		load_keymaps = true,
-	}
+require'surround'.setup{
+	load_keymaps = true,
+}
 end
+--}}}
 
+--{{{ FLOATLINE
 M.floatline = function()
 	require'floatline'.setup()
 end
 
+--}}}
+
+--{{{ LUALINE
 M.lualine = function()
 	require'lualine'.setup {
 		options = {
@@ -142,7 +171,7 @@ M.lualine = function()
 		sections = {
 			lualine_a = {'mode'},
 			lualine_b = {require'util'.get_treesitter_status},
-			lualine_c = {'branch', 'diff', 'diagnostics'},
+			lualine_c = {'branch', 'diff'},
 			lualine_x = {'filetype', 'encoding', 'fileformat'},
 			lualine_y = {'progress', 'location'},
 			lualine_z = {require'util'.get_battery_indicator},
@@ -160,6 +189,9 @@ M.lualine = function()
 	}
 end
 
+-- BUFFERLINE}}}
+
+--{{{ BUFFERLINE
 M.bufferline = function()
 	require'bufferline'.setup {
 		options = { 
@@ -191,7 +223,9 @@ M.bufferline = function()
 		}
 	}
 end
+--}}}
 
+--{{{ MINI
 M.mini = function()
 	require('mini.surround').setup({
 		n_lines = 25,
@@ -249,7 +283,9 @@ M.mini = function()
 		},
 	})
 end
+--}}}
 
+--{{{ NVIM_COMMENT
 M.nvim_comment = function()
 	require'nvim_comment'.setup {
 		line_mapping = "gvv",
@@ -257,14 +293,18 @@ M.nvim_comment = function()
 		create_mappings = true,
 	}
 end
+--}}}
 
+--{{{ HOP
 M.hop = function() 
 	require'hop'.setup {
 		keys = 'asdghklqwertyuiopzxcvbnmfj',
 		reverse_distribution = true,
 	}
 end
+--}}}
 
+--{{{ TELESCOPE
 M.telescope = function()
 	require'telescope'.setup {
 		defaults = {
@@ -272,12 +312,15 @@ M.telescope = function()
 		}
 	}
 end
+--}}}
 
+--{{{ FOCUS
 M.focus = function()
 	require'focus'.setup {
 		bufnew =  false,
 		hybridnumber = true,
 	}
 end
+--}}}
 
 return M
