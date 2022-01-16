@@ -1,7 +1,7 @@
 local o = vim.o
 local g = vim.g
 
-o.guifont = 'FiraCode NF:h11'
+o.guifont = 'FiraCode NF:h10.5'
 
 g.neovide_transparency = 0.95
 g.neovide_remember_window_size = false

@@ -13,15 +13,14 @@ require('settings')	--> for general settings
 require('map')		--> for keymaps
 
 --> NOTE: Run psh build, for latex etc
-vim.cmd('command! Build :lua require("prog").run_job("just")<CR>') 
-vim.cmd('command! Jf :e .justfile<CR>') 
+-- vim.cmd('command! Build :lua require("prog").run_job("just")<CR>') 
+-- vim.cmd('au BufWritePost *.tex Build')
 
 vim.cmd('command! PSync :lua require("plugins").sync()<CR>') 
 vim.cmd('command! PComp :lua require("plugins").compile()<CR>') 
 
 vim.cmd('au FileChangedShellPost * echohl WarningMsg | echo "File changed on disk. Buffer reloaded." | echohl None')
 vim.cmd('au BufWritePost plug*.lua lua require("util").reload_plugins()')
-vim.cmd('au BufWritePost *.tex Build')
 
 -- vim.cmd('au BufWritePost *.cpp,*.h lua require("util").format(vim.fn.expand("%"), "cpp")')
 

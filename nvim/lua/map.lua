@@ -20,18 +20,24 @@ map('n', '<C-f>',	':lua require("telescope.builtin").find_files()<CR>',	s)
 map('n', '<C-S-f>',	':lua require("telescope.builtin").file_browser()<CR>',	s)
 map('n', '<leader>t', ':lua require("telescope.builtin").treesitter()<CR>',	s)
 map('n', '<leader>p', ':lua require("telescope.builtin").registers()<CR>',	s)
+
+map('n', 'gf', '<cmd>lua require("prog").make()<CR>', s)
+map('n', '<leader>b', '<cmd>copen<CR>')
+map('n', 'gn', '<cmd>cnext<CR>', s)
+map('n', 'gN', '<cmd>cprev<CR>', s)
+
 --> Search file under cursor
-map('n', 'gf', 	'<cmd>lua require("prog").get_file_cursor(vim.fn.expand("%:p:h"), vim.fn.expand("<cfile>"))<CR>', s)
-map('n', 'gF', 	'<cmd>lua require("prog").get_file_cursor(nil, vim.fn.expand("<cfile>"))<CR>', s)
+-- map('n', 'gf', 	'<cmd>lua require("prog").get_file_cursor(vim.fn.expand("%:p:h"), vim.fn.expand("<cfile>"))<CR>', s)
+-- map('n', 'gF', 	'<cmd>lua require("prog").get_file_cursor(nil, vim.fn.expand("<cfile>"))<CR>', s)
+
+local nv = {'n', 'v'}
 
 --> Hop commands
-local hop_modes = {'n', 'v'}
-
-map(hop_modes, '<leader>a', '<cmd>lua require("hop").hint_char1()<CR>', s)
-map(hop_modes, '<leader>s', '<cmd>lua require("hop").hint_char2()<CR>', s)
-map(hop_modes, '<leader>d', '<cmd>lua require("hop").hint_words()<CR>', s)
-map(hop_modes, '<leader>e', '<cmd>lua require("hop").hint_lines()<CR>', s)
-map(hop_modes, '<leader>x', '<cmd>lua require("hop").hint_patterns()<CR>', s)
+map(nv, '<leader>a', '<cmd>lua require("hop").hint_char1()<CR>', s)
+map(nv, '<leader>s', '<cmd>lua require("hop").hint_char2()<CR>', s)
+map(nv, '<leader>d', '<cmd>lua require("hop").hint_words()<CR>', s)
+map(nv, '<leader>e', '<cmd>lua require("hop").hint_lines()<CR>', s)
+map(nv, '<leader>x', '<cmd>lua require("hop").hint_patterns()<CR>', s)
 
 --> Buffer management things
 map('n', '<leader>q', '<cmd>bd<CR>', s)
@@ -64,7 +70,6 @@ map('', '<C-=>',	':FocusEqualise<CR>', s)
 map('n', '<leader>w', '<cmd>update<CR>', s)
 
 map('n', '<leader>m', '<cmd>messages<CR>')
-map('n', '<leader>b', '<cmd>Build<CR>')
 
 --> Commonly visited files
 local vimhome = "~/Dropbox/Dev"

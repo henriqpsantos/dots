@@ -9,17 +9,11 @@ cmd ('filetype plugin indent on')
 cmd ('syntax enable')
 
 -- {{{ FOLDS
-wo.foldmethod	= 'expr'
-wo.foldexpr		= 'nvim_treesitter#foldexpr()'
-o.foldlevel		= 9
-o.foldtext = [[substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+o.foldmethod	= 'expr'
+o.foldexpr		= 'nvim_treesitter#foldexpr()'
+o.foldlevelstart= 0
+o.foldtext = [['-->'.substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
 o.foldminlines	= 3
--- }}}
-
--- {{{
---
---
---
 -- }}}
 
 o.inccommand	= 'split'			--> Show incremental search results
@@ -63,34 +57,10 @@ g.python_recommended_style = 0
 -- Shell options
 o.shell			= "nu"
 o.shellcmdflag	= '-c'
-o.shellredir = '2>&1 | save --raw %s'
-o.shellpipe	 = '2>&1 | save --raw %s'
+o.shellredir = '| save %s'
+o.shellpipe	 = '| save %s'
 
 o.shellquote	= ""
 o.shellxquote	= ""
-
-
---> POWERSHELL STUFF
--- o.shell			= "pwsh"
--- o.shellcmdflag	= '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
--- o.shellredir	= '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
--- o.shellpipe	= '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
-
---> FD ignore patterns
-fdignore = {
-	'__pycache__',
-	'%.tdms',
-	'%.feather',
-	'%.npz',
-	'%.aux',
-	'%.otf',
-	'%.ttf',
-	'%.mp3',
-	'%.sfd',
-	'%.fmt',
-	'%.jpg',
-	'%.png',
-	'BUILD\\.',
-	'Figures\\compile\\%.log',
-}
+o.makeprg		= "just"
 

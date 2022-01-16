@@ -54,31 +54,6 @@ require("nvim-treesitter.parsers").get_parser_configs().just = {
 end
 --}}}
 
---{{{ TOKYONIGHT
-M.tokyonight = function()
-vim.g.tokyonight_style = 'night'
-vim.g.tokyonight_sidebars = { "qf", "telescope", "terminal", "packer" }
-vim.defer_fn(function() vim.cmd('colorscheme tokyonight') end, 0)
-end
---}}}
-
---{{{ LSPCONFIG
-M.lspconfig = function() 
-require'lspconfig'.jedi_language_server.setup{}
-require'lspconfig'.texlab.setup{}
-end
---}}}
-
---{{{ LUASNIP
-M.luasnip = function()
-require'luasnip'.config.set_config {
-	history = true,
-	updateevents = "TextChanged,TextChangedI"
-}
-end
-
---}}}
-
 --{{{ COQ
 M.coq = function()
 	vim.g.coq_settings = {
@@ -170,7 +145,7 @@ M.lualine = function()
 		},
 		sections = {
 			lualine_a = {'mode'},
-			lualine_b = {require'util'.get_treesitter_status},
+			lualine_b = {},
 			lualine_c = {'branch', 'diff'},
 			lualine_x = {'filetype', 'encoding', 'fileformat'},
 			lualine_y = {'progress', 'location'},
@@ -189,7 +164,7 @@ M.lualine = function()
 	}
 end
 
--- BUFFERLINE}}}
+--}}}
 
 --{{{ BUFFERLINE
 M.bufferline = function()
@@ -308,8 +283,23 @@ end
 M.telescope = function()
 	require'telescope'.setup {
 		defaults = {
-			file_ignore_patterns = fdignore,
-		}
+			file_ignore_patterns = {
+				'__pycache__',
+				'%.tdms',
+				'%.feather',
+				'%.npz',
+				'%.aux',
+				'%.otf',
+				'%.ttf',
+				'%.mp3',
+				'%.sfd',
+				'%.fmt',
+				'%.jpg',
+				'%.png',
+				'BUILD\\.',
+				'Figures\\compile\\%.log',
+			},
+		},
 	}
 end
 --}}}
@@ -321,6 +311,32 @@ M.focus = function()
 		hybridnumber = true,
 	}
 end
+--}}}
+
+--{{{1 UNUSED CONFIGS
+--{{{ TOKYONIGHT
+M.tokyonight = function()
+	vim.g.tokyonight_style = 'night'
+	vim.g.tokyonight_sidebars = { "qf", "telescope", "terminal", "packer" }
+	vim.defer_fn(function() vim.cmd('colorscheme tokyonight') end, 0)
+end
+--}}}
+
+--{{{ LSPCONFIG
+M.lspconfig = function() 
+	require'lspconfig'.jedi_language_server.setup{}
+	require'lspconfig'.texlab.setup{}
+end
+--}}}
+
+--{{{ LUASNIP
+M.luasnip = function()
+	require'luasnip'.config.set_config({
+		history = true,
+		updateevents = "TextChanged,TextChangedI"
+	})
+end
+--}}}
 --}}}
 
 return M

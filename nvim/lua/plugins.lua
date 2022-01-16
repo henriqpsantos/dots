@@ -5,7 +5,7 @@ local site = fn.stdpath('data')..'/site'
 local install_path = fn.fnameescape(site ..'/pack/packer/opt/packer.nvim')
 local compile_path = fn.fnameescape(site ..'/plugin/compiled/pack_compiled.lua')
 
-local profile = false
+local profile_plugins = false
 
 if (fn.empty(fn.glob(install_path)) > 0) then
 	fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
@@ -34,11 +34,14 @@ local function init()
 --}}}
 
 --{{{ COLORSCHEME AND PRETTY UI
-	use({
-		{'savq/melange',
+	-- use({'savq/melange',
+	-- 		event = 'VimEnter',
+	-- 		config = function() vim.cmd('colorscheme melange') end})
+	use({'rebelot/kanagawa.nvim',
 			event = 'VimEnter',
-			config = function() vim.cmd('colorscheme melange') end},
-		{'nvim-lualine/lualine.nvim',
+			config = function() vim.cmd('colorscheme kanagawa') end})
+
+	use({{'nvim-lualine/lualine.nvim',
 			requires = {'kyazdani42/nvim-web-devicons',},
 			event = 'VimEnter', config = cfg.lualine,},
 		{'akinsho/nvim-bufferline.lua',
@@ -50,7 +53,6 @@ local function init()
  		requires = {'nvim-lua/plenary.nvim',},
 		event = 'BufRead',
 		config = cfg.todocomments})
-
 --}}}
 
 --{{{ EDITOR AND FINDER
@@ -71,7 +73,7 @@ local function init()
 
 	use { 'echasnovski/mini.nvim',
 		branch = 'stable',
-		config = cfg.mini}
+		config = cfg.mini,}
 
 	use {'edluffy/specs.nvim',
 		config = cfg.specs,
@@ -89,14 +91,17 @@ local function init()
 --{{{ COQ COMPLETION
 	use({{'ms-jpq/coq_nvim',
 			branch = 'coq',
-			setup = cfg.coq},
+			setup = cfg.coq,
+			commit = 'ba6e67ed'},
 		{'ms-jpq/coq.artifacts',
 			branch = 'artifacts',
-			after = 'coq_nvim'},
+			after = 'coq_nvim',
+			commit = 'c37312c'},
 		{'ms-jpq/coq.thirdparty',
 			branch ='3p',
 			after = 'coq_nvim',
-			config = cfg.coqPost}
+			config = cfg.coqPost,
+			commit = '7fe3067'},
 	})
 --}}}
 
@@ -112,6 +117,5 @@ end
 
 return require('packer').startup({
 	init,
-	config = {compile_path = compile_path,
-			profile = {enable = profile, threshold = 0}}})
+	config = {compile_path = compile_path, profile = {enable = profile_plugins, threshold = 0}}})
 

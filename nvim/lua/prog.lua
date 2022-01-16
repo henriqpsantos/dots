@@ -1,54 +1,92 @@
 local M = {}
 
---> NOTE: Useful for config edits where modules want to be reloaded often;
--->		Checks is module is loaded first so that no errors occur with inexistent modules
-function M.unload_module(module, loud)
-	if package.loaded[module] then
-		package.loaded[module] = nil
-		if loud then
-			print('Reloaded ' .. module)
+function M.make() --{{{
+	local lines = {""}
+
+	local makeprg = vim.api.nvim_get_option("makeprg")
+	--> TODO: UPDATE TO NOT ERROR (WITH PCALL)
+	-- local makeprg = vim.api.nvim_get_option("makeprg")
+	-- local makeprg = vim.api.nvim_get_option("makeprg")
+
+	if not makeprg then return end
+
+	local cmd = vim.fn.expandcmd(makeprg)
+	local function on_stdX(job_id, data, event)
+		if data then
+			vim.list_extend(lines, data)
 		end
 	end
-end
 
-function M.run_job(cmd)
+	local function on_exit(job_id, data, event)
+			vim.fn.setqflist({}, " ", {
+			title = cmd,
+			lines = lines,
+			efm = vim.api.nvim_get_option("errorformat")
+		})
+		vim.api.nvim_command("doautocmd QuickFixCmdPost")
+		vim.api.nvim_command("cw")
+		last_build = nil
+		print("make done")
+	end
+
 	if last_build then
-		print('Job ' .. last_build .. ' is still running, forcing it to stop.')
 		vim.fn.jobstop(last_build)
+		print('stopping previous make command')
 	end
-	last_build = vim.fn.jobstart(cmd, {
-		on_exit = function(id, data, event)
+
+	print("starting make")
+	last_build = vim.fn.jobstart(
+		cmd,
+		{
+			on_stderr = on_stdX,
+			on_stdout = on_stdX,
+			on_exit = on_exit,
+			stdout_buffered = true,
+			stderr_buffered = true,
+		})
+end
+--}}}
+
+function M.run_job(cmd, job_opts)--{{{
+	if last_build then vim.fn.jobstop(last_build) end
+
+	if not job_opts then
+		local function ev_exit(id, data, event)
 			last_build = nil
-			print('Job done!')
-		end,
-		on_stdout = function(id, data, event)
-			for _,d in ipairs(data) do
-				if d ~= "" then
-					print(string.format("JOB » %s", d))
+		end
+		local function ev_out(id, data, event)
+				for _,d in ipairs(data) do
+					if d ~= "" then
+						print(string.format("JOB » %s", d))
+					end
 				end
 			end
-		end,
-		on_stderr = function(id, data, event)
-			for _,d in ipairs(data) do
-				if d ~= "" then
-					print(string.format("ERR >> %s", d))
-				end
-			end
-		end,
-	})
-end
+		end
 
---> go to first comment in line 
-function M.goto_comment()
-	local cs = (vim.bo.commentstring):gsub('%%s', '')
-	local pos = vim.fn.getline('.'):find(cs, 1, true)
-	if not (pos == nil) then
-		vim.fn.setpos('.', {0, vim.fn.getpos('.')[2], pos + #cs, -1})
+		local function ev_err(id, data, event)
+			for _,d in ipairs(data) do
+				if d ~= "" then
+					print(string.format("ERR » %s", d))
+				end
+			end
+		end
+		-- ERR
+	last_build = vim.fn.jobstart(cmd, {
+		on_exit = ev_exit,
+		on_stdout = ev_out,
+		on_stderr = ev_err,
+	})
+end--}}}
+
+function M.unload_module(module, loud)--{{{
+	if package.loaded[module] then
+		package.loaded[module] = nil
+		if loud then print('Reloaded ' .. module) end
 	end
 end
+--}}}
 
-function M.battery_setup(update)
-	--> Initialize battery charge
+function M.battery_setup(update)--{{{
 	_batt = (vim.fn.systemlist('WMIC PATH Win32_Battery Get EstimatedChargeRemaining')[2]:gsub('%s*', ''))
 	if (_batt == '') then
 		_batt = 100
@@ -58,10 +96,9 @@ function M.battery_setup(update)
 			_batt = vim.fn.systemlist('WMIC PATH Win32_Battery Get EstimatedChargeRemaining')[2]:gsub('%s*', '')
 		end))
 	end
-end
+end--}}}
 
---> Open file under cursor if only 1 match; show telescope options if N > 1
-function M.get_file_cursor(dir, fname)
+function M.get_file_cursor(dir, fname)--{{{
 	local files
 	--> dir = nil => simple search for file // dir provided => search relative fdir
 	if dir == nil then
@@ -79,24 +116,7 @@ function M.get_file_cursor(dir, fname)
 	else
 		require('telescope.builtin').find_files({find_command={'fd', fname}})
 	end
-end
-
---> Toggle checkbox, only mapped in markdown
-function M.togglecb()
-	local line = vim.fn.getline('.')
-	local no_spc = line:gsub('^%s*', '')
-	--> [x] into [ ]
-	if not (no_spc:match('^%- %[x%] ') == nil) then
-		line = line:gsub('%- %[x%] ', '- [ ] ')
-	--> [ ] into [x]
-	elseif not (no_spc:match('^%- %[ %] ') == nil) then
-		line = line:gsub('%- %[ %] ', '- [x] ')
-	--> No checkbox 
-	else
-		line = line:match('^%s*') .. '- [ ] ' .. no_spc
-	end
-	vim.fn.setline('.', line)
-end
+end--}}}
 
 return M
 
