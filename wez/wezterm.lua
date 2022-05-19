@@ -25,31 +25,28 @@ wez.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	}
 end)
 
-local debcmd = {label="debian", args={"nu.exe", "-c", "debian"}}
-local pwshcmd = {label="pwsh", args={"nu.exe", "-c", "pwsh"}}
-local nucmd = {label="nushell", args={"nu.exe", "--config-file", wez.home_dir .. '/Dropbox/Dev/.config/nu/config.toml'}}
+-- local pwsh = {label="pwsh", args={"C:/Program Files/PowerShell/7/pwsh.exe"}}
+local nu_args = {"nu", "--config", "~/Dropbox/Dev/.config/nu/config.nu",
+					"--env-config", "~/Dropbox/Dev/.config/nu/env.nu"}
+local nu = {label="nushell", args=nu_args}
 
---> "--perf",
 local mykeys = {
 	{key="1", mods="ALT", action=wez.action{ActivateTab=0}},
 	{key="2", mods="ALT", action=wez.action{ActivateTab=1}},
 	{key="3", mods="ALT", action=wez.action{ActivateTab=2}},
 	{key="4", mods="ALT", action=wez.action{ActivateTab=3}},
 	{key="5", mods="ALT", action=wez.action{ActivateTab=4}},
-	{key="d", mods="ALT", action=wez.action{SpawnCommandInNewTab=debcmd}},
-	{key="m", mods="ALT", action=wez.action{SpawnCommandInNewTab=pwshcmd}},
-	{key="n", mods="ALT", action=wez.action{SpawnCommandInNewTab=nucmd}},
+	{key="n", mods="ALT", action=wez.action{SpawnCommandInNewTab=nu}},
 }
 
 local M = {
 	color_scheme_dirs = {wez.config_dir .. "/colors/"},
 	color_scheme = 'melange',
 
-	font = wez.font_with_fallback({
-		{family="FiraCode NF", weight="Light"}}),
+	font = wez.font_with_fallback({{family="FiraCode NF", weight="Light"}}),
 
-	default_prog = {"nu.exe", "--config-file", wez.home_dir .. '/Dropbox/Dev/.config/nu/config.toml'},
-	default_cwd = wez.home_dir .. '/Dropbox/Dev',
+	default_prog = nu_args,
+	default_cwd = wez.home_dir .. '/Dev',
 	disable_default_key_bindings = true,
 	keys = mykeys,
 	font_size = 12,
