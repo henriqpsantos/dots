@@ -20,3 +20,17 @@
 [credential]
 	helper = 
 	helper = C:/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+
+[alias]
+	s  = status
+	a  = add
+	c  = commit
+	b  = branch
+	co = checkout
+	pl = pull
+	ps = push
+	br = branch --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
+	lg = !git log --pretty=format:\"%C(magenta)%h%Creset -%C(red)%d%Creset %s %C(dim green)(%cr) [%an]\" --abbrev-commit -30
+	dc = diff --cached
+
+
