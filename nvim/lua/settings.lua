@@ -3,14 +3,13 @@ local wo = vim.wo
 local g = vim.g
 local cmd = vim.cmd
 
-
 --> Colorscheme, plugins etc
 cmd ('filetype plugin indent on')
 cmd ('syntax enable')
 
 -- {{{ FOLDS
-o.foldmethod	= 'expr'
-o.foldexpr		= 'nvim_treesitter#foldexpr()'
+o.foldmethod	= 'marker'
+-- o.foldexpr		= 'nvim_treesitter#foldexpr()'
 o.foldlevelstart= 0
 o.foldtext = [['-->'.substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
 o.foldminlines	= 3
@@ -30,6 +29,7 @@ o.autoindent	= false
 
 o.showmatch		= true
 o.showmode		= false
+o.laststatus	= 3
 
 o.wrap			= false
 
@@ -55,12 +55,17 @@ g.spelllang		= 'en'
 g.python_recommended_style = 0
 
 -- Shell options
-o.shell			= "nu"
-o.shellcmdflag	= '-c'
-o.shellredir = '| save %s'
-o.shellpipe	 = '| save %s'
+o.shell = 'pwsh -NoLogo'
+o.shellcmdflag = '-NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+o.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+o.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
+
+-- o.shell			= "nu"
+-- o.shellcmdflag	= '-c'
+-- o.shellredir = '| save %s'
+-- o.shellpipe	 = '| save %s'
 
 o.shellquote	= ""
 o.shellxquote	= ""
-o.makeprg		= "just"
+o.makeprg		= "ninja -c bin"
 

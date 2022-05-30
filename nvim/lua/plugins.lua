@@ -13,6 +13,7 @@ end
 
 --> This only adds packer if necessary
 vim.cmd('packadd packer.nvim')
+
 local function init()
 	local cfg = require('plugcfg')
 	local use = require('packer').use
@@ -34,19 +35,23 @@ local function init()
 --}}}
 
 --{{{ COLORSCHEME AND PRETTY UI
-	-- use({'savq/melange',
-	-- 		event = 'VimEnter',
-	-- 		config = function() vim.cmd('colorscheme melange') end})
-	use({'rebelot/kanagawa.nvim',
-			event = 'VimEnter',
-			config = function() vim.cmd('colorscheme kanagawa') end})
+	use({'rose-pine/neovim',
+		as = 'rose-pine',
+		tag = 'v1.*',
+		config = function() require('rose-pine').setup({
+					dark_variant = 'main',
+				})
+			vim.schedule(function() vim.cmd('colorscheme rose-pine') end)
+		end
+	})
 
 	use({{'nvim-lualine/lualine.nvim',
 			requires = {'kyazdani42/nvim-web-devicons',},
-			event = 'VimEnter', config = cfg.lualine,},
-		{'akinsho/nvim-bufferline.lua',
+			event = 'ColorScheme', config = cfg.lualine,},
+
+		{'akinsho/bufferline.nvim',
 			requires = {'kyazdani21/nvim-web-devicons',},
-			event = 'VimEnter', config = cfg.bufferline,}
+			event = 'ColorScheme', config = cfg.bufferline,}
 	})
 
  	use({'folke/todo-comments.nvim',
@@ -75,9 +80,21 @@ local function init()
 		branch = 'stable',
 		config = cfg.mini,}
 
-	use {'edluffy/specs.nvim',
-		config = cfg.specs,
-		event = 'BufRead',}
+	use {"akinsho/toggleterm.nvim", tag = 'v1.*', config = function()
+		require("toggleterm").setup({
+			highlights = {
+				Normal = { link = 'Normal' },
+				NormalFloat = { link = 'Normal' },
+				FloatBorder = { link = 'FloatBorder' },
+				SignColumn = { link = 'SignColumn' },
+				StatusLine = { link = 'StatusLine' },
+				StatusLineNC = { link = 'StatusLineNC' },
+			},
+			open_mapping = [[<C-t>]],
+			direction = 'float',
+			-- shell = "nu --config '~/Dropbox/Dev/.config/nu/config.nu' --env-config '~/Dropbox/Dev/.config/nu/env.nu'",
+		})
+	end}
 --}}}
 
 --{{{ MOTIONS

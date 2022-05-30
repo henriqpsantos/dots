@@ -1,42 +1,27 @@
 local M = {}
 
-function M.get_battery_indicator()
-	local batt_tb = {' ', '▁', '▂', '▃', '▄', '▅', '▆', '▇', '█'} 
-	local battery_icon = batt_tb[math.floor((_batt) / (101 / #batt_tb)) + 1]
-	return string.format('▕%s▏(%d%s', battery_icon, _batt, "%%)")
-end
-
-
-function M.format(file, prog_type)
+function M.format(file, prog_type)--{{{
 	if prog_type == "cpp" then
 		local clang_cfg = vim.env.XDG_CONFIG_HOME .. "/clang-format/clang-format"
 		vim.fn.system(string.format("clang-format %s -i --style=file:'%s'", file, clang_cfg))
 	end
 	
-end
+end--}}}
 
-function M.reload_plugins()
+function M.reload_plugins()--{{{
 	require('prog').unload_module('plugcfg', false)
 	require('prog').unload_module('plugins', false)
 	vim.schedule(function()
 		require('plugins').compile()
 	end)
-end
+end--}}}
 
-function M.map(modes, lhs, rhs, opts)
-	opts = opts or {}
-	opts.noremap = opts.noremap == nil and true or opts.noremap
-	if type(modes) == 'string' then modes = {modes} end
-	for _, mode in ipairs(modes) do vim.api.nvim_set_keymap(mode, lhs, rhs, opts) end
-end
-
-function M.buf_map(modes, lhs, rhs, opts)
+function M.buf_map(modes, lhs, rhs, opts)--{{{
 	opts = opts or {}
 	opts.noremap = opts.noremap == nil and true or opts.noremap
 	if type(modes) == 'string' then modes = {modes} end
 	for _, mode in ipairs(modes) do vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts) end
-end
-
+end--}}}
 
 function M.get_treesitter_status()--{{{
 	return require'nvim-treesitter'.statusline({

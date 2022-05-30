@@ -1,5 +1,37 @@
 M = {}
 
+--{{{ TOGGLETERM
+M.toggleterm = function()
+	require('toggleterm')
+end
+--}}}
+
+--{{{ TELESCOPE
+
+M.telescope = function()
+	require'telescope'.setup {
+		defaults = {
+			file_ignore_patterns = {
+				'__pycache__',
+				'%.tdms',
+				'%.feather',
+				'%.npz',
+				'%.aux',
+				'%.otf',
+				'%.ttf',
+				'%.mp3',
+				'%.sfd',
+				'%.fmt',
+				'%.jpg',
+				'%.png',
+				'BUILD\\.',
+				'Figures\\compile\\%.log',
+			},
+		},
+	}
+end
+--}}}
+
 --{{{ TODOCOMMENTS
 M.todocomments = function()
 require'todo-comments'.setup { 
@@ -81,28 +113,6 @@ M.coqPost = function()
 end
 --}}}
 
---{{{ SPECS
-M.specs = function()
-	require('specs').setup{
-		show_jumps  = true,
-		min_jump = 10,
-		popup = {
-			delay_ms = 0, -- delay before popup displays
-			inc_ms = 12, -- time increments used for fade/resize effects 
-			blend = 10, -- starting blend, between 0-100 (fully transparent), see :h winblend
-			width = 15,
-			winhl = "PMenu",
-			fader = require('specs').exp_fader,
-			resizer = require('specs').shrink_resizer
-		},
-		ignore_filetypes = {},
-		ignore_buftypes = {
-			nofile = true,
-		},
-	}
-end
---}}}
-
 --{{{ INDENTBLANKLINE
 M.indentblankline = function()
 require("indent_blankline").setup {
@@ -120,14 +130,6 @@ require'nvim-autopairs'.setup {
 end
 --}}}
 
---{{{ SURROUND
-M.surround = function()
-require'surround'.setup{
-	load_keymaps = true,
-}
-end
---}}}
-
 --{{{ FLOATLINE
 M.floatline = function()
 	require'floatline'.setup()
@@ -141,15 +143,15 @@ M.lualine = function()
 		options = {
 			icons_enabled = true,
 			disabled_filetypes = {},
-			theme = 'auto',
+			theme = 'rose-pine',
 		},
 		sections = {
 			lualine_a = {'mode'},
 			lualine_b = {},
 			lualine_c = {'branch', 'diff'},
 			lualine_x = {'filetype', 'encoding', 'fileformat'},
-			lualine_y = {'progress', 'location'},
-			lualine_z = {require'util'.get_battery_indicator},
+			lualine_y = {require('prog').just_progress, 'location'},
+			lualine_z = {require('prog').get_battery_indicator},
 		},
 		inactive_sections = {
 			lualine_a = {},
@@ -170,6 +172,7 @@ end
 M.bufferline = function()
 	require'bufferline'.setup {
 		options = { 
+			-- highlights = require('rose-pine.plugins.bufferline'),
 			numbers = function(opts)
 				return string.format('%s₍%s₎', opts.ordinal, opts.lower(opts.id))
 			end,
@@ -207,19 +210,15 @@ M.mini = function()
 		-- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
 		highlight_duration = 500,
 
-		-- Pattern to match function name in 'function call' surrounding
-		-- By default it is a string of letters, '_' or '.'
-		funname_pattern = '[%w_%.]+',
-
 		-- Mappings. Use `''` (empty string) to disable one.
 		mappings = {
-			add = 'sa',           -- Add surrounding
-			delete = 'sd',        -- Delete surrounding
-			find = 'sf',          -- Find surrounding (to the right)
-			find_left = 'sF',     -- Find surrounding (to the left)
-			highlight = 'sh',     -- Highlight surrounding
-			replace = 'sr',       -- Replace surrounding
-			update_n_lines = 'sn' -- Update `n_lines`
+			add = 'ºa',           -- Add surrounding
+			delete = 'ºd',        -- Delete surrounding
+			find = 'ºf',          -- Find surrounding (to the right)
+			find_left = 'ºF',     -- Find surrounding (to the left)
+			highlight = 'ºh',     -- Highlight surrounding
+			replace = 'ºr',       -- Replace surrounding
+			update_n_lines = 'ºn' -- Update `n_lines`
 		}
 	})
 	require('mini.comment').setup({
@@ -275,31 +274,6 @@ M.hop = function()
 	require'hop'.setup {
 		keys = 'asdghklqwertyuiopzxcvbnmfj',
 		reverse_distribution = true,
-	}
-end
---}}}
-
---{{{ TELESCOPE
-M.telescope = function()
-	require'telescope'.setup {
-		defaults = {
-			file_ignore_patterns = {
-				'__pycache__',
-				'%.tdms',
-				'%.feather',
-				'%.npz',
-				'%.aux',
-				'%.otf',
-				'%.ttf',
-				'%.mp3',
-				'%.sfd',
-				'%.fmt',
-				'%.jpg',
-				'%.png',
-				'BUILD\\.',
-				'Figures\\compile\\%.log',
-			},
-		},
 	}
 end
 --}}}

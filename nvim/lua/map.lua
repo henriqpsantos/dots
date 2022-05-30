@@ -1,95 +1,109 @@
 local g = vim.g
 local s = {silent = true}
 
-local map = require'util'.map
+local map = vim.keymap.set
 
 --> Leader keys
-map('', ' ', '<Nop>')
+vim.keymap.set('', ' ', '<Nop>')
 g.mapleader = [[ ]]
-map('', '_', '<Nop>')
-g.maplocalleader = [[_]]
-map('', '<leader>S', '<cmd>set spell!<CR>', s)
+
+vim.keymap.set('', '_', '<Nop>')
+g.maplocalleader = [[ç]]
+
+vim.keymap.set('', '<leader>S', '<cmd>set spell!<CR>', s)
 
 --> In visual mode press . to search selection 
-map('v', '.', 'y/<C-R>0<CR>')
+vim.keymap.set('v', '.', 'y/<C-R>0<CR>')
 --> use '-' for GOTO MARK 
-map('', '-', '`')
+vim.keymap.set('', '-', '`')
 
---> File finding setups
-map('n', '<C-f>',	':lua require("telescope.builtin").find_files()<CR>',	s)
-map('n', '<C-S-f>',	':lua require("telescope.builtin").file_browser()<CR>',	s)
-map('n', '<leader>t', ':lua require("telescope.builtin").treesitter()<CR>',	s)
-map('n', '<leader>p', ':lua require("telescope.builtin").registers()<CR>',	s)
+--{{{ TELESCOPE STUFF
+local opts_ff = { attach_mappings = function(prompt_bufnr, map)
+	local actions = require "telescope.actions"
+	actions.select_default:replace(
+		function(prompt_bufnr)
+			local actions = require "telescope.actions"
+			local state = require "telescope.actions.state"
+			local picker = state.get_current_picker(prompt_bufnr)
+			local multi = picker:get_multi_selection()
+			local single = picker:get_selection()
+			local str = ""
+			if #multi > 0 then
+				for i,j in pairs(multi) do
+					str = str.."edit "..j[1].." | "
+				end
+			end
+			str = str.."edit "..single[1]
+			actions.close(prompt_bufnr)
+			vim.api.nvim_command(str)
+		end)
+	return true
+end }
 
-map('n', 'gf', '<cmd>lua require("prog").make()<CR>', s)
-map('n', '<leader>b', '<cmd>copen<CR>')
-map('n', 'gn', '<cmd>cnext<CR>', s)
-map('n', 'gN', '<cmd>cprev<CR>', s)
+vim.keymap.set('n', '<C-f>', function() return require("telescope.builtin").find_files(opts_ff) end, s)
+vim.keymap.set('n', '<leader>p', function() return require("telescope.builtin").registers() end, s)
+vim.keymap.set('n', '<leader>t', function() return require("telescope.builtin").treesitter() end, s)
+vim.keymap.set('n', '<C-c>', function() return require("prog").pick_cd() end,	s)--}}}
 
---> Search file under cursor
--- map('n', 'gf', 	'<cmd>lua require("prog").get_file_cursor(vim.fn.expand("%:p:h"), vim.fn.expand("<cfile>"))<CR>', s)
--- map('n', 'gF', 	'<cmd>lua require("prog").get_file_cursor(nil, vim.fn.expand("<cfile>"))<CR>', s)
+--{{{ QUICKFIX LIST
+vim.keymap.set('n', 'gm', function() require("prog").make() end, s)
+vim.keymap.set('n', '<leader>b', '<cmd>copen<CR>')
+vim.keymap.set('n', 'gn', '<cmd>cnext<CR>', s)
+vim.keymap.set('n', 'gN', '<cmd>cprev<CR>', s)--}}}
 
+--{{{ HOP COMMANDS
 local nv = {'n', 'v'}
+vim.keymap.set(nv, '<leader>a', function() require("hop").hint_char1() end, s)
+vim.keymap.set(nv, '<leader>s', function() require("hop").hint_char2() end, s)
+vim.keymap.set(nv, '<leader>d', function() require("hop").hint_words() end, s)
+vim.keymap.set(nv, '<leader>e', function() require("hop").hint_lines() end, s)
+vim.keymap.set(nv, '<leader>x', function() require("hop").hint_patterns() end, s)--}}}
 
---> Hop commands
-map(nv, '<leader>a', '<cmd>lua require("hop").hint_char1()<CR>', s)
-map(nv, '<leader>s', '<cmd>lua require("hop").hint_char2()<CR>', s)
-map(nv, '<leader>d', '<cmd>lua require("hop").hint_words()<CR>', s)
-map(nv, '<leader>e', '<cmd>lua require("hop").hint_lines()<CR>', s)
-map(nv, '<leader>x', '<cmd>lua require("hop").hint_patterns()<CR>', s)
+-- BUFFERLINE {{{
+for i = 1,9 do vim.keymap.set('', '<leader>'..i , function() require("bufferline").go_to_buffer(i) end, s) end
 
---> Buffer management things
-map('n', '<leader>q', '<cmd>bd<CR>', s)
-map('n', '<leader>Q', '<cmd>BufferLinePickClose<CR>', s)
+vim.keymap.set('n', '<leader>q', '<cmd>bd<CR>', s)
+vim.keymap.set('n', '<leader>Q', '<cmd>BufferLinePickClose<CR>', s)
 
-map('n', 'gq', '<cmd>TodoQuickFix<CR>')
+vim.keymap.set('', '<C-Tab>',	function() require("bufferline").cycle(1) end,	s)
+vim.keymap.set('', '<C-S-Tab>',	function() require("bufferline").cycle(-1) end,	s)
+vim.keymap.set('', '<C-Right>',	function() require("bufferline").move(1) end,		s)
+vim.keymap.set('', '<C-Left>',	function() require("bufferline").move(-1) end,	s)--}}}
 
---> Mappings for C-# -> goto buffer
-for i = 1,9 do map('', '<leader>'..i , '<cmd>lua require"bufferline".go_to_buffer('..i..')<CR>', s) end
+-- FOCUS MAPS {{{
+vim.keymap.set('', '<M-Right>',	function() require("focus").split_command("l") end, s)
+vim.keymap.set('', '<M-Left>',	function() require("focus").split_command("h") end, s)
+vim.keymap.set('', '<M-Up>',	function() require("focus").split_command("k") end, s)
+vim.keymap.set('', '<M-Down>',	function() require("focus").split_command("j") end, s)
 
--->	Bufferline mappings - C[-S]-Tab for cycle, C- <- or -> to move
-map('', '<C-Tab>',		'<cmd>lua require"bufferline".cycle(1)<CR>',	s)
-map('', '<C-S-Tab>',	'<cmd>lua require"bufferline".cycle(-1)<CR>',	s)
-map('', '<C-Right>',	'<cmd>lua require"bufferline".move(1)<CR>',		s)
-map('', '<C-Left>',		'<cmd>lua require"bufferline".move(-1)<CR>',	s)
+vim.keymap.set('', '<M-l>', function() require("focus").split_command("l") end, s)
+vim.keymap.set('', '<M-h>', function() require("focus").split_command("h") end, s)
+vim.keymap.set('', '<M-k>', function() require("focus").split_command("k") end, s)
+vim.keymap.set('', '<M-j>', function() require("focus").split_command("j") end, s)
 
-map('', '<M-Right>',':lua require"focus".split_command("l")<CR>', s)
-map('', '<M-Left>',	':lua require"focus".split_command("h")<CR>', s)
-map('', '<M-Up>',	':lua require"focus".split_command("k")<CR>', s)
-map('', '<M-Down>',	':lua require"focus".split_command("j")<CR>', s)
+vim.keymap.set('', '<C-m>',	':FocusMaximise<CR>', s)
+vim.keymap.set('', '<C-=>',	':FocusEqualise<CR>', s)--}}}
 
-map('', '<M-l>', ':lua require"focus".split_command("l")<CR>', s)
-map('', '<M-h>', ':lua require"focus".split_command("h")<CR>', s)
-map('', '<M-k>', ':lua require"focus".split_command("k")<CR>', s)
-map('', '<M-j>', ':lua require"focus".split_command("j")<CR>', s)
+vim.keymap.set('n', '<leader>w', '<cmd>update<CR>', s)
+vim.keymap.set('n', '<leader>m', '<cmd>messages<CR>')
 
-map('', '<C-m>',	':FocusMaximise<CR>', s)
-map('', '<C-=>',	':FocusEqualise<CR>', s)
-
-map('n', '<leader>w', '<cmd>update<CR>', s)
-
-map('n', '<leader>m', '<cmd>messages<CR>')
-
---> Commonly visited files
+--> Commonly visited files & dirs
 local vimhome = "~/Dropbox/Dev"
-map('', '<F2>',		':cd '..vimhome..'/.config<CR>')
-map('', '<C-F2>', 	'<cmd>e $MYVIMRC<CR>', s)
+vim.keymap.set('', '<F2>',		':cd '..vimhome..'/.config<CR>')
+vim.keymap.set('', '<C-F2>', 	'<cmd>e $MYVIMRC<CR>', s)
 
 --> Commonly visited dirs
-map('', '<F4>',  ':cd '..vimhome..'<CR>')
-map('', '<F5>',  ':cd '..vimhome..'/thesis/Tandem<CR>')
-map('', '<F6>',	 ':cd '..vimhome..'/thesis/TandemArticle<CR>')
-map('', '<F7>',  ':cd '..vimhome..'/thesis/TandemAbstract<CR>')
+vim.keymap.set('', '<F5>',  ':cd '..'~/Dev/<CR>')
+vim.keymap.set('', '<F6>',  ':cd '..vimhome..'<CR>')
 
-map('', '<F9>',  ':cd '..vimhome..'/projects<CR>')
-map('', '<F10>', ':cd '..vimhome..'/projects/ssearcher<CR>')
-map('', '<F11>', ':cd '..vimhome..'/projects/agame<CR>')
+vim.keymap.set('', '<F9>',  ':cd '..vimhome..'/projects<CR>')
+vim.keymap.set('', '<F10>', ':cd '..vimhome..'/projects/ssearcher<CR>')
+vim.keymap.set('', '<F11>', ':cd '..vimhome..'/projects/agame<CR>')
 
-map('n', 'gc', '<cmd>lua require"prog".goto_comment()<CR>', {silent = true, nowait = true})
-map('n', 'gb', '<C-o>', {silent = true, nowait = true})
--- map('n', 'gh', '<C-i>', {silent = true, nowait = true})
+vim.keymap.set('n', 'gb', '<C-o>', {silent = true, nowait = true})
 
 --> <C-F12> to exit terminal mode
-map('t', '<C-F12>', [[<C-\><C-N>]], s)
+vim.keymap.set('t', '<C-F12>', [[<C-\><C-N>]], s)
+
+vim.keymap.set('n', 'gq', '<cmd>TodoQuickFix<CR>')
 
