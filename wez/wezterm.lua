@@ -25,10 +25,12 @@ wez.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	}
 end)
 
--- local pwsh = {label="pwsh", args={"C:/Program Files/PowerShell/7/pwsh.exe"}}
-local nu_args = {"nu", "--config", "~/Dropbox/Dev/.config/nu/config.nu",
-					"--env-config", "~/Dropbox/Dev/.config/nu/env.nu"}
+local nu_args = {"nu", "--config", "~/Dropbox/Dev/.config/nu/config.nu", "--env-config", "~/Dropbox/Dev/.config/nu/env.nu"}
 local nu = {label="nushell", args=nu_args}
+
+local pwsh_args = {"pwsh", "-NoLogo"}
+local pwsh = {label="pwsh", args=pwsh_args}
+
 
 local mykeys = {
 	{key="1", mods="ALT", action=wez.action{ActivateTab=0}},
@@ -36,7 +38,7 @@ local mykeys = {
 	{key="3", mods="ALT", action=wez.action{ActivateTab=2}},
 	{key="4", mods="ALT", action=wez.action{ActivateTab=3}},
 	{key="5", mods="ALT", action=wez.action{ActivateTab=4}},
-	{key="n", mods="ALT", action=wez.action{SpawnCommandInNewTab=nu}},
+	{key="n", mods="ALT", action=wez.action{SpawnCommandInNewTab=pwsh}},
 }
 
 local M = {
@@ -45,8 +47,9 @@ local M = {
 
 	font = wez.font_with_fallback({{family="FiraCode NF", weight="Light"}}),
 
-	default_prog = nu_args,
+	default_prog = pwsh_args,
 	default_cwd = wez.home_dir .. '/Dev',
+
 	disable_default_key_bindings = true,
 	keys = mykeys,
 	font_size = 12,
