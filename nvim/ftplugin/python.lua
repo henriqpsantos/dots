@@ -1,8 +1,7 @@
-local s = {silent = true}
-require'util'.buf_map('n', '<localleader>C', ':JupyterConnect<CR>', s)
-require'util'.buf_map('n', '<localleader>c', ':JupyterSendCode "%matplotlib qt5"<CR>', s)
-require'util'.buf_map('n', '<localleader>d', ':JupyterCd .<CR>', s)
-require'util'.buf_map('n', '<localleader>b', ':JupyterSendCell<CR>', s)
+vim.keymap.set('n', '<localleader>C', ':JupyterConnect<CR>', {silent = true, buffer = true})
+vim.keymap.set('n', '<localleader>c', ':JupyterSendCode "%matplotlib qt5"<CR>', {silent = true, buffer = true})
+vim.keymap.set('n', '<localleader>d', ':JupyterCd .<CR>', {silent = true, buffer = true})
+vim.keymap.set('n', '<localleader>b', ':JupyterSendCell<CR>', {silent = true, buffer = true})
 
 --> NOTE: Buffer local commands for opening Jupyter and using isort to sort imports
 vim.cmd('command! -buffer JPC :vs | terminal jupyter-console.exe<CR>') 
