@@ -43,7 +43,7 @@ local mykeys = {
 
 local M = {
 	color_scheme_dirs = {wez.config_dir .. "/colors/"},
-	color_scheme = 'melange',
+	color_scheme = 'terafox',
 
 	font = wez.font_with_fallback({{family="FiraCode NF", weight="Light"}}),
 
