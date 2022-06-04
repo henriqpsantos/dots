@@ -1,24 +1,35 @@
 [user]
 	email = henriquepsantos@gmail.com
 	name = dartacao
+
 [core]
 	editor = "nvr --remote-tab-wait"
-[pager]
-	diff = delta
-	show = delta
-	log = delta
-	reflog = delta
 
-[delta]
-	line-numbers = true
-	side-by-side = true
-	colorMoved = default
+; [pager]
+; 	diff = delta
+; 	show = delta
+; 	log = delta
+; 	reflog = delta
+
+; [delta]
+; 	line-numbers = true
+; 	side-by-side = true
+; 	colorMoved = default
+
+[diff]
+    tool = nvr
+[difftool "nvr"]
+    cmd = nvr -s -d $LOCAL $REMOTE
+
+[merge]
+    tool = nvr
+[mergetool "nvr"]
+    cmd = nvr -s -d $LOCAL $BASE $REMOTE $MERGED -c 'wincmd J | wincmd ='
 
 [interactive]
 	diffFilter = delta --color-only --features=interactive
 
 [credential]
-	helper = 
 	helper = C:/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
 
 [alias]
