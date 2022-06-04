@@ -143,7 +143,7 @@ M.lualine = function()
 		options = {
 			icons_enabled = true,
 			disabled_filetypes = {},
-			theme = 'rose-pine',
+			theme = 'terafox',
 		},
 		sections = {
 			lualine_a = {'mode'},

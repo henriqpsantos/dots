@@ -35,15 +35,11 @@ local function init()
 --}}}
 
 --{{{ COLORSCHEME AND PRETTY UI
-	use({'rose-pine/neovim',
-		as = 'rose-pine',
-		tag = 'v1.*',
-		config = function() require('rose-pine').setup({
-					dark_variant = 'main',
-				})
-			vim.schedule(function() vim.cmd('colorscheme rose-pine') end)
-		end
-	})
+	use({"EdenEast/nightfox.nvim",
+		config = function()
+			require('nightfox')
+			vim.schedule(function() vim.cmd('colorscheme terafox') end)
+		end})
 
 	use({{'nvim-lualine/lualine.nvim',
 			requires = {'kyazdani42/nvim-web-devicons',},
@@ -92,7 +88,6 @@ local function init()
 			},
 			open_mapping = [[<C-t>]],
 			direction = 'float',
-			-- shell = "nu --config '~/Dropbox/Dev/.config/nu/config.nu' --env-config '~/Dropbox/Dev/.config/nu/env.nu'",
 		})
 	end}
 --}}}
