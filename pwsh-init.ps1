@@ -29,7 +29,7 @@ Set-Alias -Name wg -Value winget
 
 $env:NVIM_LISTEN_ADDRESS = "\\.\pipe\nvim-nvr"
 function nvr { nvr.exe -s --nostart $args; if ($LastExitCode -ne 0) { nvd; if ($args) { nvr.exe -s --nostart $args } } }
-function nvd { neovide -- --listen "$env:NVIM_LISTEN_ADDRESS" }
+function nvd { neovide --multigrid -- --listen "$env:NVIM_LISTEN_ADDRESS" }
 
 oh-my-posh init pwsh --config 'C:\Program Files (x86)\oh-my-posh\themes\powerlevel10k_classic.omp.json' | Invoke-Expression
 
