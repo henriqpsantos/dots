@@ -2,7 +2,7 @@
 	email = henriquepsantos@gmail.com
 	name = dartacao
 [core]
-	editor = "nvr -cc split --remote-wait"
+	editor = "nvr --remote-tab-wait"
 [pager]
 	diff = delta
 	show = delta
