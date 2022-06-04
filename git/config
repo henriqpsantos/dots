@@ -2,7 +2,7 @@
 	email = henriquepsantos@gmail.com
 	name = dartacao
 [core]
-	editor = nvim
+	editor = "nvr -cc split --remote-wait"
 [pager]
 	diff = delta
 	show = delta
