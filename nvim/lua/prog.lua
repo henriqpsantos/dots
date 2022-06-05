@@ -4,8 +4,6 @@ function M.make() --{{{
 	local lines = {""}
 
 	local makeprg = vim.api.nvim_get_option("makeprg")
-	--> TODO: UPDATE TO NOT ERROR (WITH PCALL)
-	-- local makeprg = vim.api.nvim_get_option("makeprg")
 
 	if not makeprg then return end
 
