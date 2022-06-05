@@ -32,8 +32,8 @@ Set-Alias -Name act -Value .\.venv\Scripts\Activate.ps1
 Set-Alias -Name deact -Value deactivate
 
 $env:NVIM_LISTEN_ADDRESS = "\\.\pipe\nvim-nvr"
-function nvr { nvr.exe -s --nostart $args; if ($LastExitCode -ne 0) { nvd; if ($args) { nvr.exe -s --nostart $args } } }
 function nvd { neovide --multigrid -- --listen "$env:NVIM_LISTEN_ADDRESS" }
+function nvr { nvr.exe -s --nostart -l $args; if ($LastExitCode -ne 0) { nvd; if ($args) { nvr.exe -s --nostart -l $args } } }
 
 oh-my-posh init pwsh --config 'C:\Program Files (x86)\oh-my-posh\themes\powerlevel10k_classic.omp.json' | Invoke-Expression
 
