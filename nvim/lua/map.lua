@@ -92,7 +92,7 @@ map('n', '<leader>m', '<cmd>messages<CR>')
 
 --> Commonly visited files & dirs
 local vimhome = "~/Dropbox/Dev"
-map('', '<F2>',		':cd '..vimhome..'/.config<CR>')
+map('', '<F2>',		':cd '..vim.env.XDG_CONFIG_HOME..'<CR>')
 map('', '<C-F2>', 	'<cmd>e $MYVIMRC<CR>', s)
 
 --> Commonly visited dirs
@@ -104,9 +104,6 @@ map('', '<F10>', ':cd '..vimhome..'/projects/ssearcher<CR>')
 map('', '<F11>', ':cd '..vimhome..'/projects/agame<CR>')
 
 map('n', 'gb', '<C-o>', {silent = true, nowait = true})
-
---> <C-F12> to exit terminal mode
-map('t', '<C-F12>', [[<C-\><C-N>]], s)
 
 map('n', 'gq', '<cmd>TodoQuickFix<CR>')
 
