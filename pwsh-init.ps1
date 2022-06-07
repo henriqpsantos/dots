@@ -1,10 +1,11 @@
 if (-not $env:XDG_CONFIG_HOME) {
-	$env:PATH += ";$PSScriptRoot/nvim/bin"
-	$env:PATH += ";$PSScriptRoot/zig"
-	$env:PATH += ";$PSScriptRoot/util"
+	$env:PATH += ";$PSScriptRoot/../nvim/bin"
+	$env:PATH += ";$PSScriptRoot/../zig"
+	$env:PATH += ";$PSScriptRoot/../util"
 	
-	$env:XDG_CONFIG_HOME = "$PSScriptRoot\.config"
-	$env:XDG_DATA_HOME = "$PSScriptRoot\.data"
+	$env:XDG_CONFIG_HOME = "$PSScriptRoot"
+	$env:XDG_DATA_HOME = "$PSScriptRoot/../.data"
+	$env:XDG_CACHE_HOME = "$PSScriptRoot/../.cache"
 }
 
 if (-not $Loaded) {$env:PATH += ";$env:APPDATA\Python\Python310\Scripts"}
