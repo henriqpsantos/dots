@@ -11,6 +11,9 @@ end
 M.telescope = function()
 	require'telescope'.setup {
 		defaults = {
+			history = {
+				path = vim.env.XDG_CACHE_HOME.."/nvim/history.telescope",
+			},
 			file_ignore_patterns = {
 				'__pycache__',
 				'%.tdms',
