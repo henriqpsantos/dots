@@ -2,7 +2,7 @@ local execute = vim.api.nvim_command
 local fn = vim.fn
 local site = fn.stdpath('data')..'/site'
 
-local install_path = fn.fnameescape(site ..'/pack/packer/opt/packer.nvim')
+install_path = site ..'/pack/packer/opt/packer.nvim'
 local compile_path = fn.fnameescape(site ..'/plugin/compiled/pack_compiled.lua')
 
 local profile_plugins = false
