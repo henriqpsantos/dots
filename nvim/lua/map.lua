@@ -15,9 +15,6 @@ map('', '<leader>S', '<cmd>set spell!<CR>', s)
 --> In visual mode press . to search selection 
 map('v', '.', 'y/<C-R>0<CR>')
 
---> use '-' for GOTO MARK 
-map('', '-', '`')
-
 --{{{ TELESCOPE STUFF
 local opts_ff = { attach_mappings = function(prompt_bufnr, map)
 	local actions = require "telescope.actions"
@@ -53,14 +50,6 @@ map('n', 'gm', function() require("prog").make() end, s)
 map('n', '<leader>b', '<cmd>copen<CR>')
 map('n', 'gn', '<cmd>cnext<CR>', s)
 map('n', 'gN', '<cmd>cprev<CR>', s)--}}}
-
---{{{ HOP COMMANDS
-local nv = {'n', 'v'}
-map(nv, '<leader>a', function() require("hop").hint_char1() end, s)
-map(nv, '<leader>s', function() require("hop").hint_char2() end, s)
-map(nv, '<leader>d', function() require("hop").hint_words() end, s)
-map(nv, '<leader>e', function() require("hop").hint_lines() end, s)
-map(nv, '<leader>x', function() require("hop").hint_patterns() end, s)--}}}
 
 -- BUFFERLINE {{{
 for i = 1,9 do map('', '<leader>'..i , function() require("bufferline").go_to_buffer(i) end, s) end
@@ -106,4 +95,15 @@ map('', '<F11>', ':cd '..vimhome..'/projects/agame<CR>')
 map('n', 'gb', '<C-o>', {silent = true, nowait = true})
 
 map('n', 'gq', '<cmd>TodoQuickFix<CR>')
+
+--{{{ HOP COMMANDS
+local nv = {'n', 'v'}
+
+map(nv, 'm', function() require("hop").hint_char1() end, s)
+map(nv, 'M', function() require("hop").hint_char2() end, s)
+map(nv, ',', function() require("hop").hint_words() end, s)
+map(nv, '-', function() require("hop").hint_lines() end, s)
+
+--}}}
+
 

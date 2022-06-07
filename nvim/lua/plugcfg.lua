@@ -1,8 +1,24 @@
 M = {}
 
+M.leap = function()
+	-- require('leap').setup()
+	require('leap').set_default_keymaps()
+end
+
 --{{{ TOGGLETERM
 M.toggleterm = function()
-	require('toggleterm')
+		require("toggleterm").setup({
+			highlights = {
+				Normal = { link = 'Normal' },
+				NormalFloat = { link = 'Normal' },
+				FloatBorder = { link = 'FloatBorder' },
+				SignColumn = { link = 'SignColumn' },
+				StatusLine = { link = 'StatusLine' },
+				StatusLineNC = { link = 'StatusLineNC' },
+			},
+			open_mapping = [[<C-t>]],
+			direction = 'float',
+		})
 end
 --}}}
 
@@ -212,12 +228,12 @@ M.mini = function()
 
 		-- Mappings. Use `''` (empty string) to disable one.
 		mappings = {
-			add = 'ºa',           -- Add surrounding
-			delete = 'ºd',        -- Delete surrounding
-			find = 'ºf',          -- Find surrounding (to the right)
-			find_left = 'ºF',     -- Find surrounding (to the left)
-			highlight = 'ºh',     -- Highlight surrounding
-			replace = 'ºr',       -- Replace surrounding
+			add = 'sa',           -- Add surrounding
+			delete = 'sd',        -- Delete surrounding
+			find = 'sf',          -- Find surrounding (to the right)
+			find_left = 'sF',     -- Find surrounding (to the left)
+			highlight = 'sh',     -- Highlight surrounding
+			replace = 'sr',       -- Replace surrounding
 			update_n_lines = 'ºn' -- Update `n_lines`
 		}
 	})
@@ -259,21 +275,13 @@ M.mini = function()
 end
 --}}}
 
---{{{ NVIM_COMMENT
-M.nvim_comment = function()
-	require'nvim_comment'.setup {
-		line_mapping = "gvv",
-		operator_mapping = "gv",
-		create_mappings = true,
-	}
-end
---}}}
-
 --{{{ HOP
 M.hop = function() 
 	require'hop'.setup {
 		keys = 'asdghklqwertyuiopzxcvbnmfj',
 		reverse_distribution = true,
+		char2_fallback_key = "<CR>",
+		multi_windows = false,
 	}
 end
 --}}}

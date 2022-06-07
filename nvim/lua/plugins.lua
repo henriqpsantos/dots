@@ -64,10 +64,6 @@ local function init()
 					{'kyazdani42/nvim-web-devicons',}},
  		config = cfg.telescope,})
 
-	use({"beauwilliams/focus.nvim",
-		module = "focus",
-		config = cfg.focus,})
-
 	use {'lukas-reineke/indent-blankline.nvim',
 		config = cfg.indentblankline,
 		event = 'BufRead',}
@@ -76,28 +72,25 @@ local function init()
 		branch = 'stable',
 		config = cfg.mini,}
 
-	use {"akinsho/toggleterm.nvim", tag = 'v1.*', config = function()
-		require("toggleterm").setup({
-			highlights = {
-				Normal = { link = 'Normal' },
-				NormalFloat = { link = 'Normal' },
-				FloatBorder = { link = 'FloatBorder' },
-				SignColumn = { link = 'SignColumn' },
-				StatusLine = { link = 'StatusLine' },
-				StatusLineNC = { link = 'StatusLineNC' },
-			},
-			open_mapping = [[<C-t>]],
-			direction = 'float',
-		})
-	end}
+	use({"beauwilliams/focus.nvim",
+		module = "focus",
+		config = cfg.focus,})
+
+	use {"akinsho/toggleterm.nvim",
+		tag = 'v1.*',
+		config = cfg.toggleterm,}
 --}}}
 
 --{{{ MOTIONS
 	use({'phaazon/hop.nvim',
- 		as = 'hop',
- 		config = cfg.hop,
- 		event = 'CursorHold',
-		cmd = {'HopWord','HopChar2','HopWord'},})
+			as = 'hop',
+			config = cfg.hop,
+			event = 'CursorHold',
+			cmd = {'HopWord','HopChar2','HopWord'},})
+	
+	-- attepted to use Leap, didn't fit me
+	-- use({"ggandor/leap.nvim",
+	-- 	config = cfg.leap})
 --}}}
 
 --{{{ COQ COMPLETION
