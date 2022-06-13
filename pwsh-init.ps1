@@ -5,10 +5,10 @@ if (-not $env:XDG_CONFIG_HOME) {
 	
 	$env:XDG_CONFIG_HOME = "$PSScriptRoot"
 	$env:XDG_DATA_HOME = "$PSScriptRoot/../.data"
-	$env:XDG_CACHE_HOME = "$PSScriptRoot/../.cache"
 }
 
 if (-not $Loaded) {$env:PATH += ";$env:APPDATA\Python\Python310\Scripts"}
+$env:XDG_CACHE_HOME = "$PSScriptRoot/../.cache"
 
 # 	bat
 # 	delta

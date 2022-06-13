@@ -25,29 +25,38 @@ end
 --{{{ TELESCOPE
 
 M.telescope = function()
-	require'telescope'.setup {
-		defaults = {
-			history = {
-				path = vim.env.XDG_CACHE_HOME.."/nvim/history.telescope",
+	require('telescope').setup({
+			defaults = {
+				history = {
+					-- path = vim.env.XDG_CACHE_HOME.."/nvim/history.telescope",
+				},
+				file_ignore_patterns = {
+					'__pycache__',
+					'%.tdms',
+					'%.feather',
+					'%.npz',
+					'%.aux',
+					'%.otf',
+					'%.ttf',
+					'%.mp3',
+					'%.sfd',
+					'%.fmt',
+					'%.jpg',
+					'%.png',
+					'BUILD\\.',
+					'Figures\\compile\\%.log',
+				},
 			},
-			file_ignore_patterns = {
-				'__pycache__',
-				'%.tdms',
-				'%.feather',
-				'%.npz',
-				'%.aux',
-				'%.otf',
-				'%.ttf',
-				'%.mp3',
-				'%.sfd',
-				'%.fmt',
-				'%.jpg',
-				'%.png',
-				'BUILD\\.',
-				'Figures\\compile\\%.log',
-			},
-		},
-	}
+			extensions = {
+				fzf = {
+					fuzzy = true,                    -- false will only do exact matching
+					override_generic_sorter = true,  -- override the generic sorter
+					override_file_sorter = true,     -- override the file sorter
+					case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+			}
+		}
+	})
+	require('telescope').load_extension('fzf')
 end
 --}}}
 

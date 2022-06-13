@@ -61,7 +61,9 @@ local function init()
  		module = 'telescope',
  		requires = {{'nvim-lua/popup.nvim',},
 					{'nvim-lua/plenary.nvim',},
-					{'kyazdani42/nvim-web-devicons',}},
+					{'kyazdani42/nvim-web-devicons',},
+					{'nvim-telescope/telescope-fzf-native.nvim',
+						run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }},
  		config = cfg.telescope,})
 
 	use {'lukas-reineke/indent-blankline.nvim',
@@ -93,27 +95,24 @@ local function init()
 	-- 	config = cfg.leap})
 --}}}
 
---{{{ COQ COMPLETION
+--{{{ COQ
 	use({{'ms-jpq/coq_nvim',
 			branch = 'coq',
 			setup = cfg.coq,
-			commit = 'ba6e67ed'},
+			commit = '553fc3c0'},
 		{'ms-jpq/coq.artifacts',
 			branch = 'artifacts',
 			after = 'coq_nvim',
-			commit = 'c37312c'},
+			commit = '52358b2'},
 		{'ms-jpq/coq.thirdparty',
 			branch ='3p',
 			after = 'coq_nvim',
 			config = cfg.coqPost,
-			commit = '7fe3067'},
+			commit = '3f49405'},
 	})
 --}}}
 
 --{{{ LANGUAGE SUPPORT
- 	use {'jupyter-vim/jupyter-vim',
- 		ft = 'python',
-		setup = "vim.g['jupyter_mapkeys'] = 0",}
  	use {'lervag/vimtex',
  		ft = 'tex',}
 --}}}

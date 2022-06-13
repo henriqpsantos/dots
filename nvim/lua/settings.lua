@@ -7,13 +7,11 @@ local cmd = vim.cmd
 cmd ('filetype plugin indent on')
 cmd ('syntax enable')
 
--- {{{ FOLDS
-o.foldmethod	= 'marker'
--- o.foldexpr		= 'nvim_treesitter#foldexpr()'
-o.foldlevelstart= 0
-o.foldtext = [['-->'.substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
-o.foldminlines	= 3
--- }}}
+-- When virtual text becomes usable in folds
+-- o.foldmethod	= 'marker'
+-- o.foldlevelstart= 0
+-- o.foldtext = [['-->'.substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
+-- o.foldminlines	= 3
 
 o.inccommand	= 'split'			--> Show incremental search results
 o.clipboard		= 'unnamedplus' 	--> Clipboard prog
