@@ -66,21 +66,24 @@ local function init()
 						run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }},
  		config = cfg.telescope,})
 
-	use {'lukas-reineke/indent-blankline.nvim',
+	use({'lukas-reineke/indent-blankline.nvim',
 		config = cfg.indentblankline,
-		event = 'BufRead',}
+		event = 'BufRead',})
 
-	use { 'echasnovski/mini.nvim',
+	use({'echasnovski/mini.nvim',
 		branch = 'stable',
-		config = cfg.mini,}
+		config = cfg.mini,})
 
-	use({"beauwilliams/focus.nvim",
+	use({'beauwilliams/focus.nvim',
 		module = "focus",
 		config = cfg.focus,})
 
-	use {"akinsho/toggleterm.nvim",
+	use({'lewis6991/gitsigns.nvim',
+		config = cfg.gitsigns,})
+
+	use({'akinsho/toggleterm.nvim',
 		tag = 'v1.*',
-		config = cfg.toggleterm,}
+		config = cfg.toggleterm,})
 --}}}
 
 --{{{ MOTIONS

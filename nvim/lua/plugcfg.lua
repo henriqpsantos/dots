@@ -1,8 +1,7 @@
 M = {}
 
-M.leap = function()
-	-- require('leap').setup()
-	require('leap').set_default_keymaps()
+M.gitsigns = function()
+	require("gitsigns").setup()
 end
 
 --{{{ TOGGLETERM
@@ -246,7 +245,7 @@ M.mini = function()
 			find_left = 'sF',     -- Find surrounding (to the left)
 			highlight = 'sh',     -- Highlight surrounding
 			replace = 'sr',       -- Replace surrounding
-			update_n_lines = 'ºn' -- Update `n_lines`
+			update_n_lines = 'sn', -- Update `n_lines`
 		}
 	})
 	require('mini.comment').setup({
