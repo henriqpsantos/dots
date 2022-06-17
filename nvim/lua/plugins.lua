@@ -20,6 +20,8 @@ local function init()
 
 	use({'wbthomason/packer.nvim', opt = true,})
 
+	use({'nathom/filetype.nvim'})
+
 --{{{ TREESITTER
 	use({
 		{'nvim-treesitter/nvim-treesitter',
