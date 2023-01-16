@@ -58,12 +58,7 @@ o.shellcmdflag = '-NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::I
 o.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 o.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 
--- o.shell			= "nu"
--- o.shellcmdflag	= '-c'
--- o.shellredir = '| save %s'
--- o.shellpipe	 = '| save %s'
-
-o.shellquote	= ""
-o.shellxquote	= ""
+o.shellquote	= '"'
+o.shellxquote	= ''
 o.makeprg		= "ninja -c bin"
 

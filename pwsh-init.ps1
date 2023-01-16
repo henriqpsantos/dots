@@ -1,6 +1,5 @@
 if (-not $env:XDG_CONFIG_HOME) {
 	$env:PATH += ";$PSScriptRoot/../nvim/bin"
-	$env:PATH += ";$PSScriptRoot/../zig"
 	$env:PATH += ";$PSScriptRoot/../util"
 	
 	$env:XDG_CONFIG_HOME = "$PSScriptRoot"
@@ -8,7 +7,10 @@ if (-not $env:XDG_CONFIG_HOME) {
 }
 
 if (-not $Loaded) {$env:PATH += ";$env:APPDATA\Python\Python310\Scripts"}
-$env:XDG_CACHE_HOME = "$PSScriptRoot/../.cache"
+
+$DOCS = [Environment]::GetFolderPath("MyDocuments")
+$env:XDG_CACHE_HOME = "$DOCS/.cache"
+$env:XDG_DATA_HOME = "$DOCS/.data"
 
 # 	bat
 # 	delta

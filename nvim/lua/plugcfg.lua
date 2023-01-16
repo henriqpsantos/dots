@@ -46,16 +46,15 @@ M.telescope = function()
 					'Figures\\compile\\%.log',
 				},
 			},
-			extensions = {
-				fzf = {
-					fuzzy = true,                    -- false will only do exact matching
-					override_generic_sorter = true,  -- override the generic sorter
-					override_file_sorter = true,     -- override the file sorter
-					case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+		extensions = {
+			fzf = {
+				fuzzy = true,                    -- false will only do exact matching
+				override_generic_sorter = true,  -- override the generic sorter
+				override_file_sorter = true,     -- override the file sorter
+				case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
 			}
 		}
 	})
-	require('telescope').load_extension('fzf')
 end
 --}}}
 
@@ -170,14 +169,13 @@ M.lualine = function()
 		options = {
 			icons_enabled = true,
 			disabled_filetypes = {},
-			theme = 'terafox',
+			theme = 'auto',
 		},
 		sections = {
 			lualine_a = {'mode'},
 			lualine_b = {},
 			lualine_c = {'branch', 'diff'},
-			lualine_x = {'filetype', 'encoding', 'fileformat'},
-			lualine_y = {require('prog').just_progress, 'location'},
+			lualine_y = {'filetype', 'encoding', 'fileformat'},
 			lualine_z = {require('prog').get_battery_indicator},
 		},
 		inactive_sections = {
@@ -207,7 +205,7 @@ M.bufferline = function()
 			right_mouse_command = nil,
 			left_mouse_command = nil, 
 			middle_mouse_command = nil, 
-			indicator_icon = '▎',
+			-- indicator.icon = '▎',
 			buffer_close_icon = '',
 			modified_icon = '●',
 			close_icon = '',

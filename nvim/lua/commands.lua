@@ -1,12 +1,12 @@
-vim.api.nvim_create_user_command("PSync", function() require("plugins").sync() end, {})
-vim.api.nvim_create_user_command("PComp", function() require("plugins").compile() end, {})
+-- vim.api.nvim_create_user_command("PSync", function() require("plugins").sync() end, {})
+-- vim.api.nvim_create_user_command("PComp", function() require("plugins").compile() end, {})
 
 local group = vim.api.nvim_create_augroup("MAIN_GROUP", {clear = true})
-vim.api.nvim_create_autocmd(
-	{"BufWritePost"}, {
-		group	 = group,
-		pattern  = {"plug*.lua"},
-		callback = require('util').reload_plugins })
+-- vim.api.nvim_create_autocmd(
+-- 	{"BufWritePost"}, {
+-- 		group	 = group,
+-- 		pattern  = {"plug*.lua"},
+-- 		callback = require('util').reload_plugins })
 
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
 		group	 = group,
