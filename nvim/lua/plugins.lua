@@ -10,7 +10,46 @@ return {
 		},
 	},
 
+<<<<<<< HEAD
 	{"savq/melange-nvim",
+=======
+install_path = site ..'/pack/packer/opt/packer.nvim'
+local compile_path = fn.fnameescape(site ..'/plugin/compiled/pack_compiled.lua')
+
+local profile_plugins = false
+
+if (fn.empty(fn.glob(install_path)) > 0) then
+	fn.system({'git', 'clone', 'https://github.com/wbthomason/packer.nvim', install_path})
+end
+
+--> This only adds packer if necessary
+vim.cmd('packadd packer.nvim')
+
+local function init()
+	local cfg = require('plugcfg')
+	local use = require('packer').use
+
+	use({'wbthomason/packer.nvim', opt = true,})
+
+	use({'nathom/filetype.nvim'})
+
+--{{{ TREESITTER
+	use({
+		{'nvim-treesitter/nvim-treesitter',
+			run = ':TSUpdate',
+			config = cfg.treesitter,},
+		{'nvim-treesitter/nvim-treesitter-refactor',
+			after = 'nvim-treesitter',},
+		{'p00f/nvim-ts-rainbow',
+			after = 'nvim-treesitter',},
+		{'IndianBoy42/tree-sitter-just',
+			after = 'nvim-treesitter'}
+	})
+--}}}
+
+--{{{ COLORSCHEME AND PRETTY UI
+	use({"EdenEast/nightfox.nvim",
+>>>>>>> 97482717f6edfd59189f7b0f37f1cb8b0e5dcaac
 		config = function()
 			vim.cmd.colorscheme('melange')
 		end},
