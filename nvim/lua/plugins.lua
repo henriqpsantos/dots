@@ -43,12 +43,6 @@ return {
 
 	{'lewis6991/gitsigns.nvim',
 		config = cfg.gitsigns,},
-
-	-- {'TimUntersberger/neogit',
-	-- 	dependencies = {
-	-- 		'nvim-lua/plenary.nvim',
-	-- 		'sindrets/diffview.nvim',},
-	-- 	config = cfg.neogit},
 	
 	{'sindrets/diffview.nvim',
 		dependencies = {
