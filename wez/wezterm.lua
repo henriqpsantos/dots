@@ -6,7 +6,7 @@ local LEFT_ARROW = '⟨ '
 local RIGHT_ARROW = ' ⟩'
 
 wez.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
-	local title = "nushell"
+	local title = "pwsh"
 	if tab.is_active then
 		local bg_s  = "#2A2622"
 		local fg_s  = "#EDE6DE"
