@@ -3,6 +3,7 @@ M = {}
 M.gitsigns = function()
 	require("gitsigns").setup({
 		debug_mode = true,
+		-- TEST
 	})
 end
 
@@ -20,7 +21,6 @@ M.neogit = function()
 	},
 	})
 end
-
 
 M.toggleterm = function()
 		require("toggleterm").setup({
