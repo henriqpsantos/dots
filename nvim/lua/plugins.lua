@@ -71,8 +71,7 @@ return {
 	},
 
 	{'ms-jpq/coq.artifacts',
-		branch = 'artifacts',
-	},
+		branch = 'artifacts',},
 
 	{'ms-jpq/coq.thirdparty',
 		branch ='3p',
