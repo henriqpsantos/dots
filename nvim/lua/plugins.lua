@@ -42,7 +42,8 @@ return {
 		config = cfg.mini,},
 
 	{'lewis6991/gitsigns.nvim',
-		config = cfg.gitsigns,},
+		config = cfg.gitsigns,
+		branch = 'fix/win_cr'},
 	
 	{'sindrets/diffview.nvim',
 		dependencies = {
