@@ -62,8 +62,6 @@ return {
 		event = 'CursorHold',
 		cmd = {'HopWord','HopChar2','HopWord'},},
 
--- New lines for testing
-
 	{'ms-jpq/coq_nvim',
 		branch = 'coq',
 		init = cfg.coq,
