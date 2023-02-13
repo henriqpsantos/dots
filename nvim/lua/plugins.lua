@@ -50,11 +50,11 @@ return {
 	-- 		'sindrets/diffview.nvim',},
 	-- 	config = cfg.neogit},
 	
-	-- {'sindrets/diffview.nvim',
-	-- 	dependencies = {
-	-- 		'nvim-lua/plenary.nvim',},
-	-- 	config = cfg.diffview
-	-- },
+	{'sindrets/diffview.nvim',
+		dependencies = {
+			'nvim-lua/plenary.nvim',},
+		config = cfg.diffview
+	},
 
 	{'akinsho/toggleterm.nvim',
 		version = '*',
