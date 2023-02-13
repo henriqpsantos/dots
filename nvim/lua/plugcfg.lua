@@ -1,10 +1,27 @@
 M = {}
 
 M.gitsigns = function()
-	require("gitsigns").setup()
+	require("gitsigns").setup({
+		debug_mode = true,
+	})
 end
 
---{{{ TOGGLETERM
+M.diffview = function()
+	require("diffview").setup({
+		view = {
+		},
+	})
+end
+
+M.neogit = function()
+	require("neogit").setup({
+		integrations = {
+		diffview = true
+	},
+	})
+end
+
+
 M.toggleterm = function()
 		require("toggleterm").setup({
 			highlights = {
@@ -19,9 +36,6 @@ M.toggleterm = function()
 			direction = 'float',
 		})
 end
---}}}
-
---{{{ TELESCOPE
 
 M.telescope = function()
 	require('telescope').setup({
@@ -56,63 +70,49 @@ M.telescope = function()
 		}
 	})
 end
---}}}
 
---{{{ TODOCOMMENTS
 M.todocomments = function()
-require'todo-comments'.setup { 
-	merge_keywords = false,
-	signs = false,
-	highlight = {
-		before = "",
-		keyword = "bg",
-		after = "fg",
-		pattern = {[[.*<(KEYWORDS)(\([^\)]*\))?:]]},
-	},
-	pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]],
-}
+	require'todo-comments'.setup { 
+		merge_keywords = false,
+		signs = false,
+		highlight = {
+			before = "",
+			keyword = "bg",
+			after = "fg",
+			pattern = {[[.*<(KEYWORDS)(\([^\)]*\))?:]]},
+		},
+		pattern = [[\b(KEYWORDS)(\([^\)]*\))?:]],
+	}
 end
---}}}
 
---{{{ TREESITTER
 M.treesitter = function()
-require'nvim-treesitter.configs'.setup {
-	ensure_installed = {'c', 'python', 'latex', 'lua', 'cpp', 'rust'},
-	highlight = { enable = true },
-	autopairs = { enable = true },
-	rainbow = {
-		enable = true,
-		extended_mode = false,
-	},
-	refactor = {
-		highlight_definitions = { enable = true },
-		navigation = {
+	require'nvim-treesitter.configs'.setup {
+		ensure_installed = {'c', 'python', 'latex', 'lua', 'cpp', 'rust'},
+		highlight = { enable = true },
+		autopairs = { enable = true },
+		rainbow = {
 			enable = true,
-			keymaps = {
-				goto_definition = 'gd',
-				list_definitions = 'gD',
+			extended_mode = false,
+		},
+		refactor = {
+			highlight_definitions = { enable = true },
+			navigation = {
+				enable = true,
+				keymaps = {
+					goto_definition = 'gd',
+					list_definitions = 'gD',
+				},
+			},
+			smart_rename = {
+				enable = true,
+				keymaps = {
+					smart_rename = 'gr',
+				},
 			},
 		},
-		smart_rename = {
-			enable = true,
-			keymaps = {
-				smart_rename = 'gr',
-			},
-		},
-	},
-}
-require("nvim-treesitter.parsers").get_parser_configs().just = {
-	install_info = {
-		url = "https://github.com/IndianBoy42/tree-sitter-just", -- local path or git repo
-		files = { "src/parser.c", "src/scanner.cc" },
-		branch = "main",
-	},
-	maintainers = {"@IndianBoy42"},
-}
+	}
 end
---}}}
 
---{{{ COQ
 M.coq = function()
 	vim.g.coq_settings = {
 		auto_start = true,
@@ -128,42 +128,31 @@ M.coq = function()
 		},
 	}
 end
---}}}
 
---{{{ COQPOST
 M.coqPost = function()
 	require("coq_3p"){
 		{ src = "vimtex", short_name = "vTEX" },
 		{ src = "nvimlua", short_name = "nLUA", conf_only = true },
 	}
 end
---}}}
 
---{{{ INDENTBLANKLINE
 M.indentblankline = function()
-require("indent_blankline").setup {
-	char = "|",
-	buftype_exclude = {"terminal"}
-}
+	require("indent_blankline").setup {
+		char = "|",
+		buftype_exclude = {"terminal"}
+	}
 end
---}}}
 
---{{{ AUTOPAIRS
 M.autopairs = function()
-require'nvim-autopairs'.setup {
-	check_ts = true
-}
+	require'nvim-autopairs'.setup {
+		check_ts = true
+	}
 end
---}}}
 
---{{{ FLOATLINE
 M.floatline = function()
 	require'floatline'.setup()
 end
 
---}}}
-
---{{{ LUALINE
 M.lualine = function()
 	require'lualine'.setup {
 		options = {
@@ -191,9 +180,6 @@ M.lualine = function()
 	}
 end
 
---}}}
-
---{{{ BUFFERLINE
 M.bufferline = function()
 	require'bufferline'.setup {
 		options = { 
@@ -226,9 +212,7 @@ M.bufferline = function()
 		}
 	}
 end
---}}}
 
---{{{ MINI
 M.mini = function()
 	require('mini.surround').setup({
 		n_lines = 25,
@@ -282,9 +266,7 @@ M.mini = function()
 		},
 	})
 end
---}}}
 
---{{{ HOP
 M.hop = function() 
 	require'hop'.setup {
 		keys = 'asdghklqwertyuiopzxcvbnmfj',
@@ -293,41 +275,18 @@ M.hop = function()
 		multi_windows = false,
 	}
 end
---}}}
 
---{{{ FOCUS
-M.focus = function()
-	require'focus'.setup {
-		bufnew =  false,
-		hybridnumber = true,
-	}
-end
---}}}
-
---{{{1 UNUSED CONFIGS
---{{{ TOKYONIGHT
-M.tokyonight = function()
-	vim.g.tokyonight_style = 'night'
-	vim.g.tokyonight_sidebars = { "qf", "telescope", "terminal", "packer" }
-	vim.defer_fn(function() vim.cmd('colorscheme tokyonight') end, 0)
-end
---}}}
-
---{{{ LSPCONFIG
-M.lspconfig = function() 
-	require'lspconfig'.jedi_language_server.setup{}
-	require'lspconfig'.texlab.setup{}
-end
---}}}
-
---{{{ LUASNIP
-M.luasnip = function()
-	require'luasnip'.config.set_config({
-		history = true,
-		updateevents = "TextChanged,TextChangedI"
+M.ufo = function()
+	require('ufo').setup({
+		provider_selector = function(bufnr, filetype, buftype)
+			return {'treesitter', 'indent'}
+		end
 	})
+
+	local map = vim.keymap.set
+	map({'n', 'i'}, 'zr', function() require('ufo').goNextClosedFold() end)
+	map({'n', 'i'}, 'zR', function() require('ufo').goPreviousClosedFold() end)
+	map({'n', 'i'}, 'zz', function() local winid = require('ufo').peekFoldedLinesUnderCursor() end)
 end
---}}}
---}}}
 
 return M

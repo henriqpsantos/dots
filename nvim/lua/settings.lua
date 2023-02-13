@@ -7,11 +7,10 @@ local cmd = vim.cmd
 cmd ('filetype plugin indent on')
 cmd ('syntax enable')
 
--- When virtual text becomes usable in folds
--- o.foldmethod	= 'marker'
--- o.foldlevelstart= 0
--- o.foldtext = [['-->'.substitute(getline(v:foldstart),'\\\\t',repeat('\\ ',&tabstop),'g').'...'.trim(getline(v:foldend)) . ' (' . (v:foldend - v:foldstart + 1) . ' lines)']]
--- o.foldminlines	= 3
+o.foldcolumn = '1'
+o.foldlevel = 99
+o.foldlevelstart = 99
+o.foldenable = true
 
 o.inccommand	= 'split'			--> Show incremental search results
 o.clipboard		= 'unnamedplus' 	--> Clipboard prog
@@ -24,6 +23,7 @@ o.smartcase		= true
 o.smarttab		= true
 o.smartindent	= true
 o.autoindent	= false
+o.spelllang		= 'en,pt'
 
 o.showmatch		= true
 o.showmode		= false
@@ -58,7 +58,7 @@ o.shellcmdflag = '-NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::I
 o.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 o.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 
-o.shellquote	= '"'
+o.shellquote	= ''
 o.shellxquote	= ''
 o.makeprg		= "ninja -c bin"
 

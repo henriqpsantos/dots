@@ -6,22 +6,18 @@ return {
 		dependencies = {
 			'nvim-treesitter/nvim-treesitter-refactor',
 			'p00f/nvim-ts-rainbow',
-			-- 'IndianBoy42/tree-sitter-just',
-		},
-	},
+		},},
 
-	{"savq/melange-nvim",
-		config = function()
-			vim.cmd.colorscheme('melange')
-		end},
+	{'savq/melange-nvim',
+		config = function() vim.cmd.colorscheme('melange') end},
 
 	{'nvim-lualine/lualine.nvim',
-			dependencies = {'kyazdani42/nvim-web-devicons',},
-			event = 'ColorScheme', config = cfg.lualine,},
+		dependencies = {'kyazdani42/nvim-web-devicons',},
+		event = 'ColorScheme', config = cfg.lualine,},
 
 	{'akinsho/bufferline.nvim',
-			dependencies = {'kyazdani42/nvim-web-devicons',},
-			event = 'ColorScheme', config = cfg.bufferline,},
+		dependencies = {'kyazdani42/nvim-web-devicons',},
+		event = 'ColorScheme', config = cfg.bufferline,},
 
  	{'folke/todo-comments.nvim',
  		dependencies = {'nvim-lua/plenary.nvim',},
@@ -45,30 +41,38 @@ return {
 		branch = 'stable',
 		config = cfg.mini,},
 
-	{'beauwilliams/focus.nvim',
-		module = "focus",
-		config = cfg.focus,},
-
 	{'lewis6991/gitsigns.nvim',
 		config = cfg.gitsigns,},
+
+	-- {'TimUntersberger/neogit',
+	-- 	dependencies = {
+	-- 		'nvim-lua/plenary.nvim',
+	-- 		'sindrets/diffview.nvim',},
+	-- 	config = cfg.neogit},
+	
+	-- {'sindrets/diffview.nvim',
+	-- 	dependencies = {
+	-- 		'nvim-lua/plenary.nvim',},
+	-- 	config = cfg.diffview
+	-- },
 
 	{'akinsho/toggleterm.nvim',
 		version = '*',
 		config = cfg.toggleterm,},
 
 	{'phaazon/hop.nvim',
-			name = 'hop',
-			config = cfg.hop,
-			event = 'CursorHold',
-			cmd = {'HopWord','HopChar2','HopWord'},},
+		name = 'hop',
+		config = cfg.hop,
+		event = 'CursorHold',
+		cmd = {'HopWord','HopChar2','HopWord'},},
 
 	{'ms-jpq/coq_nvim',
-			branch = 'coq',
-			init = cfg.coq,
-			dependencies = {
-				'coq.artifacts',
-				'coq.thirdparty'}
-			},
+		branch = 'coq',
+		init = cfg.coq,
+		dependencies = {
+			'coq.artifacts',
+			'coq.thirdparty'}
+	},
 
 	{'ms-jpq/coq.artifacts',
 		branch = 'artifacts',
@@ -80,4 +84,12 @@ return {
 
  	{'lervag/vimtex',
  		ft = 'tex',},
+
+	{'asiryk/auto-hlsearch.nvim',
+		version = '1.0.0',
+		config = function() require('auto-hlsearch').setup() end},
+
+	{'kevinhwang91/nvim-ufo',
+		config = cfg.ufo,
+		dependencies = 'kevinhwang91/promise-async'},
 }
