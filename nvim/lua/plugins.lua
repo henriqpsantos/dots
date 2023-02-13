@@ -8,6 +8,7 @@ return {
 			'p00f/nvim-ts-rainbow',
 		},},
 
+
 	{'savq/melange-nvim',
 		config = function() vim.cmd.colorscheme('melange') end},
 
