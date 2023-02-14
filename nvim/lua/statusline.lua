@@ -55,13 +55,6 @@ local clmodes = setmetatable({
 	end
 })
 
-
--- lualine_a = {'mode'},
--- lualine_b = {},
--- lualine_c = {'branch', 'diff'},
--- lualine_y = {'filetype', 'encoding', 'fileformat'},
--- lualine_z = {require('prog').get_battery_indicator},
-
 local function getCurrentMode()
 	local current_mode = api.nvim_get_mode().mode
 	return string.format('%s %s ', clmodes[current_mode], modes[current_mode][1]):upper()
