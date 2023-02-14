@@ -147,12 +147,21 @@ local SEPARATOR = cls.active..'|'
 
 return function()
 	return table.concat({
-		colors.active,
-		colors.filetype,
+		cls.active,
 		getCurrentMode(),
-		colors.mode_alt,
-		sep,
-		" %<%f ",
+		SEPARATOR,
+		getGitStatus(),
+		SEPARATOR,
+		getFiletype(),
+		-- SEPARATOR,
+		-- getFileInfo(),
+		EQUAL,
+		" %<%t ",
+		EQUAL,
+		" Ln %l /  %L ",
+		SEPARATOR,
+		" ",
+		require('prog').get_battery_indicator(),
 	})
 end
 
