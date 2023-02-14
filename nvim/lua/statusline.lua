@@ -92,8 +92,8 @@ local function getFiletype()
 end
 
 local function getFileInfo()
-	local icon_ff = require'nvim-web-devicons'.get_icon(vim.bo.fileformat, vim.bo.fileformat, { default = true })
-	local icon_enc = require'nvim-web-devicons'.get_icon(vim.o.encoding, vim.o.encoding, { default = true })
+	local icon_ff = vim.bo.fileformat == 'dos' and '' or ''
+	local icon_enc = string.upper(vim.o.encoding)
 	return string.format(' %s | %s ', icon_ff, icon_enc)
 end
 
@@ -106,12 +106,12 @@ return function()
 		getCurrentMode(),
 		SEPARATOR,
 		getGitStatus(),
-		SEPARATOR,
-		getFiletype(),
-		-- SEPARATOR,
-		-- getFileInfo(),
 		EQUAL,
 		" %<%t ",
+		SEPARATOR,
+		getFiletype(),
+		SEPARATOR,
+		getFileInfo(),
 		EQUAL,
 		" Ln %l /  %L ",
 		SEPARATOR,
