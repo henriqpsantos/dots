@@ -113,7 +113,39 @@ local function getFiletype()
 	if filetype == '' then return '' end
 	return string.format(' %s %s ', icon, filetype):lower()
 end
-function getStatusLine()
+
+local function getGitStatus()
+	-- use fallback because it doesn't set this variable on the initial `BufEnter`
+	local signs = vim.b.gitsigns_status_dict or {head = '', added = 0, changed = 0, removed = 0}
+	local is_head_empty = signs.head ~= ''
+
+	return is_head_empty
+		and string.format(' %%#GitSignsAdd#+%s %%#GitSignsChange#~%s %%#GitSignsDelete#-%s %%#Normal#|  %s ',
+		signs.added, signs.changed, signs.removed, signs.head) or ''
+end
+
+local cls = {
+	active		= '%#Normal#',
+}
+local function getFiletype()
+	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
+	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
+	local filetype = vim.bo.filetype
+	
+	if filetype == '' then return '' end
+	return string.format(' %s %s ', icon, filetype):lower()
+end
+
+local function getFileInfo()
+	local icon_ff = require'nvim-web-devicons'.get_icon(vim.bo.fileformat, vim.bo.fileformat, { default = true })
+	local icon_enc = require'nvim-web-devicons'.get_icon(vim.o.encoding, vim.o.encoding, { default = true })
+	return string.format(' %s | %s ', icon_ff, icon_enc)
+end
+
+local EQUAL = '%='
+local SEPARATOR = cls.active..'|'
+
+return function()
 	return table.concat({
 		colors.active,
 		colors.filetype,
