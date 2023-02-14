@@ -2,7 +2,7 @@ M = {}
 
 M.gitsigns = function()
 	require("gitsigns").setup({
-		debug_mode = true,
+		debug_mode = false,
 	})
 end
 
@@ -142,43 +142,6 @@ M.indentblankline = function()
 	}
 end
 
-M.autopairs = function()
-	require'nvim-autopairs'.setup {
-		check_ts = true
-	}
-end
-
-M.floatline = function()
-	require'floatline'.setup()
-end
-
-M.lualine = function()
-	require'lualine'.setup {
-		options = {
-			icons_enabled = true,
-			disabled_filetypes = {},
-			theme = 'auto',
-		},
-		sections = {
-			lualine_a = {'mode'},
-			lualine_b = {},
-			lualine_c = {'branch', 'diff'},
-			lualine_y = {'filetype', 'encoding', 'fileformat'},
-			lualine_z = {require('prog').get_battery_indicator},
-		},
-		inactive_sections = {
-			lualine_a = {},
-			lualine_b = {},
-			lualine_c = {'filename'},
-			lualine_x = {'location'},
-			lualine_y = {},
-			lualine_z = {}
-		},
-		tabline = {},
-		extensions = {}
-	}
-end
-
 M.bufferline = function()
 	require'bufferline'.setup {
 		options = { 
@@ -218,7 +181,6 @@ M.mini = function()
 		-- Duration (in ms) of highlight when calling `MiniSurround.highlight()`
 		highlight_duration = 500,
 
-		-- Mappings. Use `''` (empty string) to disable one.
 		mappings = {
 			add = 'sa',           -- Add surrounding
 			delete = 'sd',        -- Delete surrounding
