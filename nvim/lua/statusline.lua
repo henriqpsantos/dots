@@ -28,6 +28,33 @@ local modes = setmetatable({
 	end
 })
 
+local clmodes = setmetatable({
+		['n']  = "%#SpecialChar#";
+		['no'] = "%#SpecialChar#";
+		['v']  = "%#DiffChange#";
+		['V']  = "%#DiffChange#";
+		[''] = "%#DiffChange#";
+		['s']  = "%#Operator#";
+		['S']  = "%#Operator#";
+		[''] = "%#Operator#";
+		['i']  = "%#Constant#";
+		['ic'] = "%#Constant#";
+		['R']  = "%#Character#";
+		['Rv'] = "%#Character#";
+		['c']  = "%#ErrorMsg#";
+		['cv'] = "%#ErrorMsg#";
+		['ce'] = "%#ErrorMsg#";
+		['r']  = "%#StatusLine#";
+		['rm'] = "%#StatusLine#";
+		['r?'] = "%#StatusLine#";
+		['!']  = "%#Function#";
+		['t']  = "%#Function#";
+	}, {
+	__index = function()
+		return "%#StatusLine#" -- handle edge cases
+	end
+})
+
 
 -- lualine_a = {'mode'},
 -- lualine_b = {},
