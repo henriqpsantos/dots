@@ -27,6 +27,27 @@ local modes = setmetatable({
 	end
 })
 
+
+-- set_hl(0, 'SLback1', {bg = '#292522'})
+-- set_hl(0, 'SLback2', {bg = '#34302c'})
+--
+-- set_hl(0, 'SLnmode', {bg = '#ece1d7', fg = '#292522', bold = true})
+-- set_hl(0, 'SLimode', {bg = '#a3a9ce', fg = '#292522', bold = true})
+-- set_hl(0, 'SLrmode', {bg = '#cf9bc2', fg = '#292522', bold = true})
+-- set_hl(0, 'SLvmode', {bg = '#b380b0', fg = '#292522', bold = true})
+-- set_hl(0, 'SLterm',  {bg = '#ebc06d', fg = '#292522', bold = true})
+--
+-- set_hl(0, '_inv_SLnmode', {fg = '#ece1d7', bg = '#292522', bold = true})
+-- set_hl(0, '_inv_SLimode', {fg = '#a3a9ce', bg = '#292522', bold = true})
+-- set_hl(0, '_inv_SLrmode', {fg = '#cf9bc2', bg = '#292522', bold = true})
+-- set_hl(0, '_inv_SLvmode', {fg = '#b380b0', bg = '#292522', bold = true})
+-- set_hl(0, '_inv_SLterm',  {fg = '#ebc06d', bg = '#292522', bold = true})
+--
+-- set_hl(0, 'SLcmode', {bg = '#7d2a2f', fg = '#ece1d7', bold = true})
+-- set_hl(0, '_inv_SLcmode', {fg = '#7d2a2f', bg = '#292522', bold = true})
+--
+-- set_hl(0, 'SLfore',  {fg = '#ece1d7'})
+
 local clmodes = setmetatable({
 		['n']  = "%#SpecialChar#";
 		['no'] = "%#SpecialChar#";
