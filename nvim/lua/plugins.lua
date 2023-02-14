@@ -12,9 +12,9 @@ return {
 	{'savq/melange-nvim',
 		config = function() vim.cmd.colorscheme('melange') end},
 
-	{'nvim-lualine/lualine.nvim',
-		dependencies = {'kyazdani42/nvim-web-devicons',},
-		event = 'ColorScheme', config = cfg.lualine,},
+	-- {'nvim-lualine/lualine.nvim',
+	-- 	dependencies = {'kyazdani42/nvim-web-devicons',},
+	-- 	event = 'ColorScheme', config = cfg.lualine,},
 
 	{'akinsho/bufferline.nvim',
 		dependencies = {'kyazdani42/nvim-web-devicons',},

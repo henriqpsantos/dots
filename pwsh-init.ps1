@@ -20,12 +20,15 @@ Set-Alias -Name wg -Value winget
 Set-Alias -Name act -Value .\.venv\Scripts\Activate.ps1
 Set-Alias -Name deact -Value deactivate
 
-Set-Alias -Name cd -Value pushd -Option AllScope -Force
-Set-Alias -Name bd -Value popd -Option AllScope
+# Set-Alias -Name cd -Value pushd -Option AllScope -Force
+# Set-Alias -Name bd -Value popd -Option AllScope
 
-Set-Alias -Name cdl -Option AllScope -Value cdl_
 
-function cdl_ { Get-Location -stack | foreach {$_.Path} | select -uniq | fzf | cd }
+Set-Alias -Name "ppd" -Value "Pop-PersistentPath" -Force -Description "Persistent Pop Location" -EA Ignore -Scope Global -Option AllScope
+Set-Alias -Name "pd" -Value "Push-PersistentPath" -Force -Description "Persistent Push Location" -EA Ignore -Scope Global -Option AllScope
+Set-Alias -Name "cdl" -Value "cdl_" -Force -EA Ignore -Scope Global -Option AllScope
+
+function cdl_ { Get-PersistentPathList | fzf | cd }
 
 # function nvr { nvr.exe -s --nostart -l $args; if ($LastExitCode -ne 0) { nvd; if ($args) { nvr.exe -s --nostart -l $args } } }
 

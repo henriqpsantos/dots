@@ -1,4 +1,3 @@
-local M = {}
 local api = vim.api
 local fn = vim.fn
 local modes = setmetatable({
@@ -82,6 +81,7 @@ end
 local cls = {
 	active		= '%#Normal#',
 }
+
 local function getFiletype()
 	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
 	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
@@ -119,5 +119,3 @@ return function()
 		require('prog').get_battery_indicator(),
 	})
 end
-
-vim.o.statusline = "%!luaeval('getStatusLine()')"

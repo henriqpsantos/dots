@@ -62,3 +62,4 @@ o.shellquote	= ''
 o.shellxquote	= ''
 o.makeprg		= "ninja -c bin"
 
+vim.o.statusline = [[%!luaeval('require("statusline")()')]]

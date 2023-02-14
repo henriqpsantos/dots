@@ -24,5 +24,5 @@
   "telescope.nvim": { "branch": "master", "commit": "203bf5609137600d73e8ed82703d6b0e320a5f36" },
   "todo-comments.nvim": { "branch": "main", "commit": "74c7d28cb50b0713c881ef69bcb6cdd77d8907d1" },
   "toggleterm.nvim": { "branch": "main", "commit": "2a787c426ef00cb3488c11b14f5dcf892bbd0bda" },
-  "vimtex": { "branch": "master", "commit": "3a9180f1d2cc984fe24bc7afaf9d4d00b3e4c20a" }
+  "vimtex": { "branch": "master", "commit": "cb1460f6e6160a855bf83d93d9a34bb944f6b540" }
 }
