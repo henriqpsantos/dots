@@ -62,44 +62,6 @@ local clmodes = setmetatable({
 -- lualine_y = {'filetype', 'encoding', 'fileformat'},
 -- lualine_z = {require('prog').get_battery_indicator},
 
--- local function getColorSpec(hlGroup, kind)
--- 	for _,hlName in ipairs(hlGroup) do
--- 		if vim.fn.hlexists(hlName) ~= 0 then
--- 			if kind == 'bg' then
--- 				return string.format('#%06x', vim.api.nvim_get_hl_by_name(hlName, true).background)
--- 			else
--- 				return string.format('#%06x', vim.api.nvim_get_hl_by_name(hlName, true).foreground)
--- 			end
--- 		end
--- 	end
--- end
-
--- local colors = {
--- 	normal  = getColorSpec( { 'PmenuSel', 'PmenuThumb', 'TabLineSel' },'bg'),
--- 	insert  = getColorSpec( { 'String', 'MoreMsg' },'fg'),
--- 	replace = getColorSpec( { 'Number', 'Type' },'fg'),
--- 	visual  = getColorSpec( { 'Special', 'Boolean', 'Constant' },'fg'),
--- 	command = getColorSpec( { 'Identifier' },'fg'),
--- 	back1   = getColorSpec( { 'Normal', 'StatusLineNC' },'bg'),
--- 	fore    = getColorSpec( { 'Normal', 'StatusLine' },'fg'),
--- 	back2   = getColorSpec( { 'StatusLine' },'bg'),
--- }
-
-local colors = {
-	active        = '%#StatusLine#',
-	inactive      = '%#StatuslineNC#',
-	mode          = '%#Mode#',
-	mode_alt      = '%#ModeAlt#',
-	git           = '%#Git#',
-	git_alt       = '%#GitAlt#',
-	filetype      = '%#Filetype#',
-	filetype_alt  = '%#FiletypeAlt#',
-	line_col      = '%#LineCol#',
-	line_col_alt  = '%#LineColAlt#',
-}
-
-local sep = ''
-
 local function getCurrentMode()
 	local current_mode = api.nvim_get_mode().mode
 	return string.format('%s %s ', clmodes[current_mode], modes[current_mode][1]):upper()
