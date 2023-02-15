@@ -3,6 +3,11 @@ M = {}
 M.gitsigns = function()
 	require("gitsigns").setup({
 		debug_mode = false,
+		on_attach = function(bufnr)
+			local map = vim.keymap.set
+			map({'n', 'v'}, '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>', {})
+			map({'n', 'v'}, '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>', {})
+		end
 	})
 end
 
