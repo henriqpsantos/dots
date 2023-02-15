@@ -10,7 +10,7 @@ g.mapleader = [[ ]]
 map('', '_', '<Nop>')
 -- g.maplocalleader = [[ç]]
 
-map('', '<leader>s', '<cmd>set spell!<CR>', s)
+map('', '<leader>s', function() vim.o.spell = not vim.o.spell end, s)
 
 --> In visual mode press / to search selection 
 map('v', '/', 'y/<C-R>0<CR>')
@@ -78,6 +78,4 @@ map('n', '<M-S->', '<cmd>wincmd 5-<CR>', s)
 
 map('n', '<M-q>', '<cmd>wincmd q<CR>', s)
 map('n', '<M-o>', '<cmd>wincmd o<CR>', s)
-
-
 

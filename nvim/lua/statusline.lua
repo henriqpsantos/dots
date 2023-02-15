@@ -64,6 +64,8 @@ local SLHighlights = {
 	['SLback2'] = {bg = '#34302c'},
 	['SLfore'] = {fg = '#ece1d7'},
 	['SLcmode'] = {bg = '#7d2a2f', fg = '#ece1d7', bold = true},
+	['SL_ON'] = {link = 'GitSignsAdd'},
+	['SL_OFF'] = {link = 'GitSignsDelete'},
 	['_inv_SLcmode'] = {fg = '#7d2a2f', bg = '#292522', bold = true},
 }
 for i,v in pairs(SLHighlights) do setHighlight(i, v, false) end
@@ -96,7 +98,6 @@ local mode_colors = setmetatable({
 })
 
 local EQUAL = '%='
--- local SEP = {'', '', '', ''}
 local arrows = {
 	eleft = '',
 	eright = '',
@@ -117,26 +118,12 @@ local function getGitStatus()
 	-- use fallback because it doesn't set this variable on the initial `BufEnter`
 	local signs = vim.b.gitsigns_status_dict or {head = '', added = 0, changed = 0, removed = 0}
 	local is_head_empty = signs.head ~= ''
-	return is_head_empty and string.format(' %s+%s %s~%s %s-%s %%#Normal#|  %s %s',
+	return is_head_empty and string.format(' %s+%s %s~%s %s-%s %s|  %s %s',
 			wrap_hl('GitSignsAdd'), signs.added,
 			wrap_hl('GitSignsChange'), signs.changed,
-			wrap_hl('GitSignsDelete'), signs.removed, signs.head, arrows.eright) or ''
+			wrap_hl('GitSignsDelete'), signs.removed,
+			wrap_hl('Normal'), signs.head, arrows.eright) or ''
 end
-
--- local function getFiletype()
--- 	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
--- 	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
--- 	local filetype = vim.bo.filetype
---
--- 	if filetype == '' then return '' end
--- 	return string.format(' %s %s ', icon, filetype):lower()
--- end
---
--- local function getFileInfo()
--- 	local icon_ff = vim.bo.fileformat == 'dos' and '' or ''
--- 	local icon_enc = string.upper(vim.o.encoding)
--- 	return string.format(' %s | %s ', icon_ff, icon_enc)
--- end
 
 local function getFileStr()
 	local icon_ff = vim.bo.fileformat == 'dos' and '' or ''
@@ -146,13 +133,27 @@ local function getFileStr()
 	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
 	local filetype = vim.bo.filetype:lower()
 	
-	if filetype == 'toggleterm' then file_name = "TERM" end
+	if filetype == 'toggleterm' then file_name = "term" end
+	if filetype == 'lazy' then file_name = "lazy" end
 	local type_info = string.format('%s %s', icon, filetype)
 	return string.format('%s%s%s %s | %s | %s : %s %s%s',
 		wrap_hl('_inv_SLcenter'), arrows.fleft, wrap_hl('SLcenter'),
 		file_name,
 		type_info,
 		icon_ff, icon_enc, wrap_hl('_inv_SLnmode'), arrows.fright)
+end
+
+local function opts()
+	local function getFMT(icon, option)
+		return (option and wrap_hl('SL_ON') or wrap_hl('SL_OFF')) .. icon
+	end
+	local spell_check = getFMT('暈', vim.o.spell)
+	local wrap_check = getFMT('', vim.o.wrap)
+	
+	return table.concat({'',
+		spell_check,
+		wrap_check,
+		''}, ' ')
 end
 
 local norm = wrap_hl('Normal')
@@ -164,7 +165,8 @@ return function()
 		getGitStatus(),
 		EQUAL,
 		getFileStr(),
-		EQUAL,
+		EQUAL, norm, arrows.eleft,
+		opts(),
 		norm, arrows.eleft, " Ln %l / %L ",
 		arrows.fleft, center, " ", require('prog').get_battery_indicator(),
 	})

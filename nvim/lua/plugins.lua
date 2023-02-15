@@ -8,27 +8,27 @@ return {
 			'p00f/nvim-ts-rainbow',
 		},},
 
-
 	{'savq/melange-nvim',
 		config = function() vim.cmd.colorscheme('melange') end},
 
 	{'akinsho/bufferline.nvim',
 		dependencies = {'kyazdani42/nvim-web-devicons',},
-		event = 'ColorScheme', config = cfg.bufferline,},
+		event = 'ColorScheme',
+		config = cfg.bufferline,},
 
- 	{'folke/todo-comments.nvim',
- 		dependencies = {'nvim-lua/plenary.nvim',},
+	{'folke/todo-comments.nvim',
+		dependencies = {'nvim-lua/plenary.nvim',},
 		event = 'BufRead',
 		config = cfg.todocomments},
 
- 	{'nvim-telescope/telescope.nvim',
- 		module = 'telescope',
- 		dependencies = {{'nvim-lua/popup.nvim',},
+	{'nvim-telescope/telescope.nvim',
+		module = 'telescope',
+		dependencies = {{'nvim-lua/popup.nvim',},
 					{'nvim-lua/plenary.nvim',},
 					{'kyazdani42/nvim-web-devicons',},
 					{'nvim-telescope/telescope-fzf-native.nvim',
 						build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }},
- 		config = cfg.telescope,},
+		config = cfg.telescope,},
 
 	{'lukas-reineke/indent-blankline.nvim',
 		config = cfg.indentblankline,
@@ -39,8 +39,7 @@ return {
 		config = cfg.mini,},
 
 	{'lewis6991/gitsigns.nvim',
-		config = cfg.gitsigns,
-		branch = 'fix/win_cr'},
+		config = cfg.gitsigns,},
 	
 	{'sindrets/diffview.nvim',
 		dependencies = {
@@ -73,8 +72,8 @@ return {
 		branch ='3p',
 		config = cfg.coqPost},
 
- 	{'lervag/vimtex',
- 		ft = 'tex',},
+	{'lervag/vimtex',
+		ft = 'tex',},
 
 	{'asiryk/auto-hlsearch.nvim',
 		version = '1.0.0',
