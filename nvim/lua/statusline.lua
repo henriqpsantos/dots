@@ -55,7 +55,10 @@ local SLInvHighlights = {
 	['SLrmode'] = {bg = '#cf9bc2', fg = '#292522', bold = true},
 	['SLvmode'] = {bg = '#b380b0', fg = '#292522', bold = true},
 	['SLterm']  = {bg = '#ebc06d', fg = '#292522', bold = true},
+	['SLcenter'] = {bg = '#ece1d7', fg = '#292522'},
 }
+for i,v in pairs(SLInvHighlights) do setHighlight(i, v, true) end
+
 local SLHighlights = {
 	['SLback1'] = {bg = '#292522'},
 	['SLback2'] = {bg = '#34302c'},
@@ -63,8 +66,6 @@ local SLHighlights = {
 	['SLcmode'] = {bg = '#7d2a2f', fg = '#ece1d7', bold = true},
 	['_inv_SLcmode'] = {fg = '#7d2a2f', bg = '#292522', bold = true},
 }
-
-for i,v in pairs(SLInvHighlights) do setHighlight(i, v, true) end
 for i,v in pairs(SLHighlights) do setHighlight(i, v, false) end
 
 local mode_colors = setmetatable({
@@ -95,8 +96,13 @@ local mode_colors = setmetatable({
 })
 
 local EQUAL = '%='
-local SEP = {'', '', '', ''}
-local SEPARATOR = "|"
+-- local SEP = {'', '', '', ''}
+local arrows = {
+	eleft = '',
+	eright = '',
+	fleft = '',
+	fright = '',
+}
 
 local function wrap_hl(hl)
 	return table.concat({"%#", hl, "#"})
@@ -104,7 +110,7 @@ end
 
 local function getCurrentMode()
 	local current_mode = api.nvim_get_mode().mode
-	return string.format('%s %s %s%s', wrap_hl(mode_colors[current_mode]), modes[current_mode][1]:upper(), wrap_hl("_inv_"..mode_colors[current_mode]), SEP[3])
+	return string.format('%s %s %s%s', wrap_hl(mode_colors[current_mode]), modes[current_mode][1]:upper(), wrap_hl("_inv_"..mode_colors[current_mode]), arrows.fright)
 end
 
 local function getGitStatus()
@@ -114,40 +120,55 @@ local function getGitStatus()
 	return is_head_empty and string.format(' %s+%s %s~%s %s-%s %%#Normal#|  %s %s',
 			wrap_hl('GitSignsAdd'), signs.added,
 			wrap_hl('GitSignsChange'), signs.changed,
-			wrap_hl('GitSignsDelete'), signs.removed, signs.head, SEP[1]) or ''
+			wrap_hl('GitSignsDelete'), signs.removed, signs.head, arrows.eright) or ''
 end
 
-local function getFiletype()
-	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
-	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
-	local filetype = vim.bo.filetype
-	
-	if filetype == '' then return '' end
-	return string.format(' %s %s ', icon, filetype):lower()
-end
+-- local function getFiletype()
+-- 	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
+-- 	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
+-- 	local filetype = vim.bo.filetype
+--
+-- 	if filetype == '' then return '' end
+-- 	return string.format(' %s %s ', icon, filetype):lower()
+-- end
+--
+-- local function getFileInfo()
+-- 	local icon_ff = vim.bo.fileformat == 'dos' and '' or ''
+-- 	local icon_enc = string.upper(vim.o.encoding)
+-- 	return string.format(' %s | %s ', icon_ff, icon_enc)
+-- end
 
-local function getFileInfo()
+local function getFileStr()
 	local icon_ff = vim.bo.fileformat == 'dos' and '' or ''
 	local icon_enc = string.upper(vim.o.encoding)
-	return string.format(' %s | %s ', icon_ff, icon_enc)
+
+	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
+	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
+	local filetype = vim.bo.filetype:lower()
+	
+	if filetype == 'toggleterm' then file_name = "TERM" end
+	local type_info = string.format('%s %s', icon, filetype)
+	return string.format('%s%s%s %s | %s | %s : %s %s%s',
+		wrap_hl('_inv_SLcenter'), arrows.fleft, wrap_hl('SLcenter'),
+		file_name,
+		type_info,
+		icon_ff, icon_enc, wrap_hl('_inv_SLnmode'), arrows.fright)
 end
 
 local norm = wrap_hl('Normal')
-local center = wrap_hl('SLnmode')
-local center_inv = wrap_hl('_inv_SLnmode')
+local center = wrap_hl('SLcenter')
 
-function x()
+return function()
 	return table.concat({
 		getCurrentMode(),
 		getGitStatus(),
 		EQUAL,
-		center_inv, SEP[4], center, " %<%t ", SEPARATOR, getFiletype(), SEPARATOR, getFileInfo(),
-		norm, SEP[3], EQUAL, SEP[2], " Ln %l /  %L ",
-		SEP[2],
-		" ",
+		getFileStr(),
+		norm, EQUAL, arrows.eleft, " Ln %l / %L ",
+		arrows.fleft, center, " ",
 		require('prog').get_battery_indicator(),
 	})
 end
 
-vim.o.statusline = [[%!luaeval('x()')]]
+-- vim.o.statusline = [[%!luaeval('x()')]]
 
