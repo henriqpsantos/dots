@@ -47,7 +47,7 @@ o.fileformats	= 'dos,unix'
 
 o.updatetime	= 500
 
-g.spelllang		= 'en'
+-- g.spelllang		= 'en'
 
 -- g.python3_host_prog = vim.env.PYTHON_LOC
 g.python_recommended_style = 0
