@@ -164,9 +164,9 @@ return function()
 		getGitStatus(),
 		EQUAL,
 		getFileStr(),
-		norm, EQUAL, arrows.eleft, " Ln %l / %L ",
-		arrows.fleft, center, " ",
-		require('prog').get_battery_indicator(),
+		EQUAL,
+		norm, arrows.eleft, " Ln %l / %L ",
+		arrows.fleft, center, " ", require('prog').get_battery_indicator(),
 	})
 end
 
