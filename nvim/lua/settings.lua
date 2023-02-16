@@ -53,8 +53,8 @@ o.updatetime	= 500
 g.python_recommended_style = 0
 
 -- Shell options
-o.shell = 'pwsh -NoLogo'
-o.shellcmdflag = '-NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
+o.shell = 'pwsh'
+o.shellcmdflag = '-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;'
 o.shellredir = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 o.shellpipe = '2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode'
 
