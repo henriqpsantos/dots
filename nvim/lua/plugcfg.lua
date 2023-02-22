@@ -7,7 +7,10 @@ M.gitsigns = function()
 			local map = vim.keymap.set
 			map({'n', 'v'}, '<leader>hs', '<cmd>Gitsigns stage_hunk<CR>', {})
 			map({'n', 'v'}, '<leader>hr', '<cmd>Gitsigns reset_hunk<CR>', {})
-		end
+			map('n', '<leader>hd', '<cmd>Gitsigns diffthis<CR>', {})
+			map('n', ']h', '<cmd>Gitsigns prev_hunk<CR>', {})
+			map('n', '[h', '<cmd>Gitsigns next_hunk<CR>', {})
+		end,
 	})
 end
 
@@ -43,36 +46,38 @@ end
 
 M.telescope = function()
 	require('telescope').setup({
-			defaults = {
-				history = {
-					-- path = vim.env.XDG_CACHE_HOME.."/nvim/history.telescope",
-				},
-				file_ignore_patterns = {
-					'__pycache__',
-					'%.tdms',
-					'%.feather',
-					'%.npz',
-					'%.aux',
-					'%.otf',
-					'%.ttf',
-					'%.mp3',
-					'%.sfd',
-					'%.fmt',
-					'%.jpg',
-					'%.png',
-					'BUILD\\.',
-					'Figures\\compile\\%.log',
-				},
+		defaults = {
+			history = {
+				-- path = vim.env.XDG_CACHE_HOME.."/nvim/history.telescope",
 			},
+			file_ignore_patterns = {
+				'__pycache__',
+				'%.tdms',
+				'%.feather',
+				'%.npz',
+				'%.aux',
+				'%.otf',
+				'%.ttf',
+				'%.mp3',
+				'%.sfd',
+				'%.fmt',
+				'%.jpg',
+				'%.png',
+				'BUILD\\.',
+				'Figures\\compile\\%.log',
+			},
+		},
 		extensions = {
 			fzf = {
 				fuzzy = true,                    -- false will only do exact matching
 				override_generic_sorter = true,  -- override the generic sorter
 				override_file_sorter = true,     -- override the file sorter
 				case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-			}
+			},
+			-- ["ui-select"] = {},
 		}
 	})
+	require("telescope").load_extension("ui-select")
 end
 
 M.todocomments = function()
@@ -91,7 +96,7 @@ end
 
 M.treesitter = function()
 	require'nvim-treesitter.configs'.setup {
-		ensure_installed = {'c', 'python', 'latex', 'lua', 'cpp', 'rust'},
+		ensure_installed = {'c', 'python', 'latex', 'lua', 'cpp', 'rust', 'julia'},
 		highlight = { enable = true },
 		autopairs = { enable = true },
 		rainbow = {

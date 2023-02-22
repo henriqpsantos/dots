@@ -11,11 +11,6 @@ return {
 	{'savq/melange-nvim',
 		config = function() vim.cmd.colorscheme('melange') end},
 
-	{'akinsho/bufferline.nvim',
-		dependencies = {'kyazdani42/nvim-web-devicons',},
-		event = 'ColorScheme',
-		config = cfg.bufferline,},
-
 	{'folke/todo-comments.nvim',
 		dependencies = {'nvim-lua/plenary.nvim',},
 		event = 'BufRead',
@@ -25,10 +20,11 @@ return {
 		module = 'telescope',
 		dependencies = {{'nvim-lua/popup.nvim',},
 					{'nvim-lua/plenary.nvim',},
-					{'kyazdani42/nvim-web-devicons',},
-					{'nvim-telescope/telescope-fzf-native.nvim',
-						build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }},
+					{'kyazdani42/nvim-web-devicons',},},
 		config = cfg.telescope,},
+	{'nvim-telescope/telescope-fzf-native.nvim',
+		build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+	{'nvim-telescope/telescope-ui-select.nvim'},
 
 	{'lukas-reineke/indent-blankline.nvim',
 		config = cfg.indentblankline,

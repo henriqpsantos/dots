@@ -28,8 +28,7 @@ local modes = setmetatable({
 	end
 })
 
-local function getSpecs(name)
-	print(name)
+local function getSpecs(name, kind)
 	for k,v in pairs(vim.api.nvim_get_hl_by_name(name, true)) do
 		if type(v) == 'number' then
 			print(string.format('  %s, #%06x', k, v))
@@ -39,7 +38,19 @@ local function getSpecs(name)
 	end
 end
 
-local function setHighlight(name, attrs, invert)
+local function getHLColor(name, kind)
+	return string.format('#%06x', vim.api.nvim_get_hl_by_name(name, true)[kind])
+end
+
+local function highlightLike(name, attrs, invert)
+	attrs.bg, nbg = attrs.bg:gsub("?", "")
+	attrs.fg, nfg = attrs.fg:gsub("?", "")
+
+	local bg_plane = nbg == 0 and 'background' or 'foreground'
+	local fg_plane = nfg == 0 and 'foreground' or 'background'
+ 
+	attrs.bg = getHLColor(attrs.bg, bg_plane)
+	attrs.fg = getHLColor(attrs.fg, fg_plane)
 	vim.api.nvim_set_hl(0, name, attrs)
 	if invert then
 		local temp = attrs.bg
@@ -49,26 +60,23 @@ local function setHighlight(name, attrs, invert)
 	end
 end
 
-local SLInvHighlights = {
-	['SLnmode'] = {bg = '#ece1d7', fg = '#292522', bold = true},
-	['SLimode'] = {bg = '#a3a9ce', fg = '#292522', bold = true},
-	['SLrmode'] = {bg = '#cf9bc2', fg = '#292522', bold = true},
-	['SLvmode'] = {bg = '#b380b0', fg = '#292522', bold = true},
-	['SLterm']  = {bg = '#ebc06d', fg = '#292522', bold = true},
-	['SLcenter'] = {bg = '#ece1d7', fg = '#292522'},
+local SLInvV2 = {
+	['SLnmode'] =  {fg = 'Normal', bg = 'Normal', bold = true}, -- a.fg
+	['SLimode'] =  {fg = 'String', bg = 'Normal', bold = true}, -- b.blue
+	['SLrmode'] =  {fg = 'Type', bg = 'Normal', bold = true}, -- c.cyan
+	['SLvmode'] =  {fg = 'GitSignsChange', bg = 'Normal', bold = true}, -- c.magenta
+	['SLterm']  =  {fg = 'Function', bg = 'Normal', bold = true}, -- b.yellow
+	['SLcenter'] = {fg = 'Normal', bg = 'Normal'},			  -- a.fg
 }
-for i,v in pairs(SLInvHighlights) do setHighlight(i, v, true) end
+for i,v in pairs(SLInvV2) do highlightLike(i, v, true) end
 
 local SLHighlights = {
-	['SLback1'] = {bg = '#292522'},
-	['SLback2'] = {bg = '#34302c'},
-	['SLfore'] = {fg = '#ece1d7'},
-	['SLcmode'] = {bg = '#7d2a2f', fg = '#ece1d7', bold = true},
-	['SL_ON'] = {link = 'GitSignsAdd'},
-	['SL_OFF'] = {link = 'GitSignsDelete'},
-	['_inv_SLcmode'] = {fg = '#7d2a2f', bg = '#292522', bold = true},
+	['_inv_SLcmode'] = {bg = 'ErrorMsg', fg = 'Normal', bold = true}, -- 
+	['SLcmode'] = {fg = '?ErrorMsg', bg = 'Normal', bold = true},	  -- 
+	['SL_ON'] = {fg = 'GitSignsAdd', bg = 'Normal'},
+	['SL_OFF'] = {fg = 'GitSignsDelete', bg = 'Normal'},
 }
-for i,v in pairs(SLHighlights) do setHighlight(i, v, false) end
+for i,v in pairs(SLHighlights) do highlightLike(i, v, false) end
 
 local mode_colors = setmetatable({
 		['n']  = "SLnmode";
@@ -111,7 +119,7 @@ end
 
 local function getCurrentMode()
 	local current_mode = api.nvim_get_mode().mode
-	return string.format('%s %s %s%s', wrap_hl(mode_colors[current_mode]), modes[current_mode][1]:upper(), wrap_hl("_inv_"..mode_colors[current_mode]), arrows.fright)
+	return string.format('%s %s %s%s', wrap_hl('_inv_'..mode_colors[current_mode]), modes[current_mode][1]:upper(), wrap_hl(mode_colors[current_mode]), arrows.fright)
 end
 
 local function getGitStatus()
@@ -128,7 +136,6 @@ end
 local function getFileStr()
 	local icon_ff = vim.bo.fileformat == 'dos' and '' or ''
 	local icon_enc = string.upper(vim.o.encoding)
-
 	local file_name, file_ext = fn.expand("%:t"), fn.expand("%:e")
 	local icon = require'nvim-web-devicons'.get_icon(file_name, file_ext, { default = true })
 	local filetype = vim.bo.filetype:lower()
@@ -137,27 +144,27 @@ local function getFileStr()
 	if filetype == 'lazy' then file_name = "lazy" end
 	local type_info = string.format('%s %s', icon, filetype)
 	return string.format('%s%s%s %s | %s | %s : %s %s%s',
-		wrap_hl('_inv_SLcenter'), arrows.fleft, wrap_hl('SLcenter'),
+		wrap_hl('SLcenter'), arrows.fleft, wrap_hl('_inv_SLcenter'),
 		file_name,
 		type_info,
-		icon_ff, icon_enc, wrap_hl('_inv_SLnmode'), arrows.fright)
+		icon_ff, icon_enc, wrap_hl('SLnmode'), arrows.fright)
 end
 
 local function opts()
-	local function getFMT(icon, option)
+	local function format_option(icon, option)
 		return (option and wrap_hl('SL_ON') or wrap_hl('SL_OFF')) .. icon
 	end
-	local spell_check = getFMT('暈', vim.o.spell)
-	local wrap_check = getFMT('', vim.o.wrap)
+	local spell_check = format_option('暈', vim.o.spell)
+	local wrap_check = format_option('', vim.o.wrap)
 	
 	return table.concat({'',
 		spell_check,
 		wrap_check,
-		''}, ' ')
+		' '}, ' ')
 end
 
 local norm = wrap_hl('Normal')
-local center = wrap_hl('SLcenter')
+local center = wrap_hl('_inv_SLcenter')
 
 return function()
 	return table.concat({
@@ -171,6 +178,4 @@ return function()
 		arrows.fleft, center, " ", require('prog').get_battery_indicator(),
 	})
 end
-
--- vim.o.statusline = [[%!luaeval('x()')]]
 

@@ -5,6 +5,11 @@ local group = vim.api.nvim_create_augroup("MAIN_GROUP", {clear = true})
 -- 		pattern  = {"plug*.lua"},
 -- 		callback = require('util').reload_plugins })
 
+
+
+vim.api.nvim_create_user_command('Dvo', 'DiffviewOpen', {})
+vim.api.nvim_create_user_command('Dvc', 'DiffviewOpen', {})
+
 vim.api.nvim_create_autocmd({"BufWritePre"}, {
 		group	 = group,
 		pattern  = {"*.cpp", "*.h"},

@@ -7,7 +7,7 @@ local cmd = vim.cmd
 cmd ('filetype plugin indent on')
 cmd ('syntax enable')
 
-o.foldcolumn = '1'
+-- o.foldcolumn = '1'
 o.foldlevel = 99
 o.foldlevelstart = 99
 o.foldenable = true
@@ -45,9 +45,8 @@ o.completeopt	= 'menuone,noselect'
 o.encoding		= 'UTF-8'
 o.fileformats	= 'dos,unix'
 
-o.updatetime	= 500
+o.updatetime	= 300
 
--- g.spelllang		= 'en'
 
 -- g.python3_host_prog = vim.env.PYTHON_LOC
 g.python_recommended_style = 0
