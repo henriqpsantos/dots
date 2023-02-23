@@ -45,6 +45,7 @@ map('n', '<leader>t', function() return require("telescope.builtin").treesitter(
 
 map('n', '<leader>B', function() return require("telescope.builtin").buffers(require('telescope.themes').get_ivy()) end, s)
 map('n', '<leader>b', function() return require("prog").pickBuffers() end, s)
+map('n', '<leader>g', function() return require("prog").pickWindows() end, s)
 
 -- for i = 1,9 do map('', '<leader>'..i , function() require("bufferline").go_to_buffer(i) end, s) end
 

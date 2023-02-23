@@ -30,18 +30,18 @@ M.neogit = function()
 end
 
 M.toggleterm = function()
-		require("toggleterm").setup({
-			highlights = {
-				Normal = { link = 'Normal' },
-				NormalFloat = { link = 'Normal' },
-				FloatBorder = { link = 'FloatBorder' },
-				SignColumn = { link = 'SignColumn' },
-				StatusLine = { link = 'StatusLine' },
-				StatusLineNC = { link = 'StatusLineNC' },
-			},
-			open_mapping = [[<C-t>]],
-			direction = 'float',
-		})
+	require("toggleterm").setup({
+		highlights = {
+			Normal = { link = 'Normal' },
+			NormalFloat = { link = 'Normal' },
+			FloatBorder = { link = 'FloatBorder' },
+			SignColumn = { link = 'SignColumn' },
+			StatusLine = { link = 'StatusLine' },
+			StatusLineNC = { link = 'StatusLineNC' },
+		},
+		open_mapping = [[<C-t>]],
+		direction = 'float',
+	})
 end
 
 M.telescope = function()

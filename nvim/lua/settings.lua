@@ -23,7 +23,7 @@ o.smartcase		= true
 o.smarttab		= true
 o.smartindent	= true
 o.autoindent	= false
-o.spelllang		= 'en,pt'
+o.spelllang		= 'en,pt_pt'
 
 o.showmatch		= true
 o.showmode		= false

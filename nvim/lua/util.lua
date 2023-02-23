@@ -1,27 +1,12 @@
 local M = {}
 
-function M.format(file, prog_type)--{{{
+function M.format(file, prog_type)
 	if prog_type == "cpp" then
 		local clang_cfg = vim.env.XDG_CONFIG_HOME .. "/clang-format/clang-format"
 		vim.fn.system(string.format("clang-format %s -i --style=file:'%s'", file, clang_cfg))
 	end
 	
-end--}}}
-
-function M.reload_plugins()--{{{
-	require('prog').unload_module('plugcfg', false)
-	require('prog').unload_module('plugins', false)
-	vim.schedule(function()
-		require('plugins').compile()
-	end)
-end--}}}
-
-function M.buf_map(modes, lhs, rhs, opts)--{{{
-	opts = opts or {}
-	opts.noremap = opts.noremap == nil and true or opts.noremap
-	if type(modes) == 'string' then modes = {modes} end
-	for _, mode in ipairs(modes) do vim.api.nvim_buf_set_keymap(0, mode, lhs, rhs, opts) end
-end--}}}
+end
 
 function M.get_treesitter_status()--{{{
 	return require'nvim-treesitter'.statusline({
@@ -29,13 +14,13 @@ function M.get_treesitter_status()--{{{
 			type_patterns = {'class', 'function', 'method'},
 			transform_fn = function(line) return line:gsub('%s*[%[%(%{]*%s*$', '') end,
 			separator = ' : '})
-end--}}}
+end
 
--- {{{ ARRAY REMOVE FUNCTION
+-- ARRAY REMOVE FUNCTION
 -- Usually an order of magnitude faster than table.remove : source ->> https://stackoverflow.com/questions/12394841 <<- 
 function M.ArrayRemove(t, fnKeep)
 	local j, n = 1, #t;
-	for i=1,n do
+	for i = 1,n do
 		if (fnKeep(t, i, j)) then
 			-- Move i's kept value to j's position, if it's not already there.
 			if (i ~= j) then
@@ -48,33 +33,6 @@ function M.ArrayRemove(t, fnKeep)
 		end
 	end
 	return t;
-end--}}}
-
-function M.plug_noload()--{{{
-	local disabled_built_ins = {
-		"netrw",
-		"netrwPlugin",
-		"netrwSettings",
-		"netrwFileHandlers",
-		"gzip",
-		"zip",
-		"zipPlugin",
-		"tar",
-		"tarPlugin",
-		"getscript",
-		"getscriptPlugin",
-		"vimball",
-		"vimballPlugin",
-		"2html_plugin",
-		"logipat",
-		"rrhelper",
-		"spellfile_plugin",
-		"tutor_mode_plugin",
-	}
-
-	for _, plugin in pairs(disabled_built_ins) do
-		vim.g["loaded_" .. plugin] = true
-	end
-end--}}}
+end
 
 return M
