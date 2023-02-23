@@ -22,16 +22,6 @@ function M.get_battery_indicator()
 	end
 end
 
-function M.just_progress()
-	local status = {"", "", "", "", "", ""}
-	local icons = {"?", "ⓙ", "✓", "🞖"}
-	if build_running then
-		return status[1]
-	elseif make_done then
-	end
-	return icons[1]
-end
-
 function M.unload_module(module, loud)
 	if package.loaded[module] then
 		package.loaded[module] = nil
@@ -57,7 +47,7 @@ function M.get_file_cursor(dir, fname)
 	else
 		require('telescope.builtin').find_files({find_command={'fd', fname}})
 	end
-end--}}}
+end
 
 function M.get_matching_file()
 	local ext = vim.fn.expand('%:e')
@@ -95,22 +85,25 @@ function M.pick_cd(opts)
 	}):find()
 end
 
-local function openCenteredFloat(strings, options)
-	local curr_win_id = vim.api.nvim_get_current_win()
-	local width = options.width or math.floor(vim.api.nvim_win_get_width(curr_win_id) * 0.5)
+-- Function adapted from Plenary.nvim to allow for direct buffer lines to be
+-- setup, multiple floats for split selection and a set of defaults to match
+function M.openCenteredFloat(strings, options)
+	strings = type(strings) ~= 'table' and {strings} or strings
+	local width = options.width or math.floor(vim.o.columns * 0.5)
 	local height = options.height or #strings
 
 	local top, left
 	if options.rel then
-		top = math.floor(((vim.api.nvim_get_win_height(curr_win_id) - height) / 2) - 1)
-		left = math.floor((vim.api.nvim_get_win_width(curr_win_id) - width) / 2)
+		top = math.floor(((vim.api.nvim_win_get_height(options.rel) - height) / 2) - 1)
+		left = math.floor((vim.api.nvim_win_get_width(options.rel) - width) / 2)
 	else
 		top = math.floor(((vim.o.lines - height) / 2) - 1)
 		left = math.floor((vim.o.columns - width) / 2)
 	end
 
 	local opts = {
-		relative = "editor",
+		relative = options.rel and "win" or "editor",
+		win = options.rel or nil,
 		row = top,
 		col = left,
 		width = width,
@@ -123,8 +116,6 @@ local function openCenteredFloat(strings, options)
 	local win_id = vim.api.nvim_open_win(bufnr, true, opts)
 
 	vim.api.nvim_win_set_option(win_id, "winblend", 0)
-	vim.cmd(string.format("autocmd WinLeave <buffer> silent! execute 'bdelete! %s'", bufnr))
-
 	vim.api.nvim_buf_set_lines(bufnr, 0, -1, true, strings)
 
 	return {
@@ -133,51 +124,82 @@ local function openCenteredFloat(strings, options)
 	}
 end
 
-function M.pickBuffers()
-	local ESCAPE = 27
-	local CHARS = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
-		'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
-		'u', 'v', 'w', 'x', 'y', 'z'}
+local ESCAPE = 27
+local CHARS = {'1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
+	'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+	'u', 'v', 'w', 'x', 'y', 'z'}
 
-	local function get_editable_buffers()
-		local result = {}
-		local strings = {}
-		local index = 1
-		for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
-			if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "modifiable") then
-				result[CHARS[index]] = bufnr
-				table.insert(strings, string.format('%s: %s', CHARS[index], vim.api.nvim_buf_get_name(bufnr)))
-				index = index + 1
-			end
+-- Loops until a character is pressed and validated
+-- picker_windows -> table of window ids to close
+-- select_options -> options for the user to select from
+-- callback -> function with the selected item as an argument
+local function pickerLoop(picker_windows, select_options, callback)
+	picker_windows = type(picker_windows) ~= 'table' and {picker_windows} or picker_windows
+
+	local function close_floating_buffers(buffers)
+		for _,buffer in ipairs(buffers) do
+			vim.api.nvim_buf_delete(buffer, {force = true})
 		end
-		return result, strings
 	end
 
-	local buffers, strings = get_editable_buffers()
-	local tbl = openCenteredFloat(strings, {rel = false})
-
-	vim.defer_fn(function()
-		local char = nil
-		while char == nil do
-			char = vim.fn.getchar()
-			if char == ESCAPE then
-				vim.api.nvim_win_close(tbl.win_id, true)
+	local char_selected = nil
+	while char_selected == nil do
+		char_selected = vim.fn.getchar()
+		char_selected = type(char_selected) ~= "string" and char_selected or nil
+		if char_selected == ESCAPE then
+			close_floating_buffers(picker_windows)
+			return
+		-- Char is a number key or is in alphabet
+		elseif ((char_selected >= 49 and char_selected <=57) or (char_selected >= 97 and char_selected <= 122)) then
+			-- Equivalent to char_selected = nil if char_selected is not in select_options
+			char_selected = select_options[string.char(char_selected)]
+			if char_selected then
+				close_floating_buffers(picker_windows)
+				callback(char_selected)
 				return
 			end
-			print(char)
-			if ((char >= 97 and char <= 122) or (char >= 49 and char <=57)) then
-				local selected = buffers[string.char(char)]
-				char = selected
-				if selected then
-					vim.api.nvim_win_close(tbl.win_id, true)
-					vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(), selected)
-					return
-				end
-			else 
-				char = nil
-			end
+		else 
+			char_selected = nil
 		end
+	end
+end
+
+function M.pickBuffers()
+	local buffers, strings = {}, {}
+	local i = 1
+	for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+		if vim.api.nvim_buf_is_loaded(bufnr) and vim.api.nvim_buf_get_option(bufnr, "modifiable") then
+			buffers[CHARS[i]] = bufnr
+			table.insert(strings, string.format('%s: %s', CHARS[i], vim.fn.fnamemodify(vim.api.nvim_buf_get_name(bufnr), ':t')))
+			i = i + 1
+		end
+	end
+	local tbl = M.openCenteredFloat(strings, {rel = false})
+
+	vim.defer_fn(function()
+		pickerLoop(tbl.bufnr, buffers,
+			function(selected)
+				vim.api.nvim_win_set_buf(vim.api.nvim_get_current_win(), selected)
+			end)
+	end, 0)
+end
+
+function M.pickWindows()
+	local wins = vim.api.nvim_list_wins()
+	local pickers = {}
+	local selects = {}
+	for i,id in ipairs(wins) do
+		table.insert(pickers, M.openCenteredFloat(string.format('%3s', i), {rel = id, width = 5, border = 'double'}).bufnr)
+		selects[CHARS[i]] = id
+	end
+
+	vim.defer_fn(function()
+		pickerLoop(pickers, selects,
+			function(selected)
+				vim.api.nvim_set_current_win(selected)
+			end)
 	end, 0)
 end
 
 return M
+
