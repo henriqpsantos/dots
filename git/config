@@ -2,8 +2,34 @@
 	email = henriquepsantos@gmail.com
 	name = dartacao
 
+[core]
+	safecrlf = false
+	editor = nvr
+	pager = delta
+
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+
 [credential]
-	helper = C:/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+	helper = C:/Program\\ Files/Git/mingw64/libexec/git-core/git-credential-manager-core.exe
+
+[delta]
+	features = side-by-side line-numbers decorations
+	syntax-theme = Dracula
+	plus-style = syntax "#003800"
+	minus-style = syntax "#3f0001"
+
+[delta "decorations"]
+	commit-decoration-style = bold yellow box ul
+	file-style = bold yellow ul
+	file-decoration-style = none
+	hunk-header-decoration-style = cyan box ul
+
+[delta "line-numbers"]
+	line-numbers-left-style = cyan
+	line-numbers-right-style = cyan
+	line-numbers-minus-style = 124
+	line-numbers-plus-style = 28
 
 [alias]
 	s  = status
