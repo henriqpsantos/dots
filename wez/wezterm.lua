@@ -25,8 +25,8 @@ wez.on("format-tab-title", function(tab, tabs, panes, config, hover, max_width)
 	}
 end)
 
-local nu_args = {"nu", "--config", "~/Dropbox/Dev/.config/nu/config.nu", "--env-config", "~/Dropbox/Dev/.config/nu/env.nu"}
-local nu = {label="nushell", args=nu_args}
+-- local nu_args = {"nu", "--config", "~/Dropbox/Dev/.config/nu/config.nu", "--env-config", "~/Dropbox/Dev/.config/nu/env.nu"}
+-- local nu = {label="nushell", args=nu_args}
 
 local pwsh_args = {"pwsh", "-NoLogo"}
 local pwsh = {label="pwsh", args=pwsh_args}
