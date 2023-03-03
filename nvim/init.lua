@@ -1,10 +1,6 @@
 if not loaded then
 	require'prog'.battery_setup(60000)
 	local disabled_built_ins = {
-		-- "netrw",
-		-- "netrwPlugin",
-		-- "netrwSettings",
-		-- "netrwFileHandlers",
 		"gzip",
 		"zip",
 		"zipPlugin",
@@ -17,6 +13,10 @@ if not loaded then
 		"2html_plugin",
 		"logipat",
 		"rrhelper",
+		-- "netrw",
+		-- "netrwPlugin",
+		-- "netrwSettings",
+		-- "netrwFileHandlers",
 		-- "spellfile_plugin",
 		"tutor_mode_plugin",
 	}
@@ -47,6 +47,12 @@ require('neovide')
 require('settings')		--> for general settings
 require('map')			--> for keymaps
 require('commands')		--> for custom commands
+
+vim.g.coq_settings = {
+	auto_start = 'shut-up',
+	-- display = {pum = {source_context = {'⎡', '⎦'},},},
+	-- clients = { snippets = {}, },
+}
 
 require('lazy').setup('plugins')
 

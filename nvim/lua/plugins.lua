@@ -10,7 +10,24 @@ return {
 		},},
 
 	{'savq/melange-nvim',
+		cond = false,	
 		config = function() vim.cmd.colorscheme('melange') end},
+
+	{"catppuccin/nvim",
+		name = "catppuccin",
+		config = function()
+			require('catppuccin').setup({
+				flavour = 'mocha',
+				color_overrides = {
+					mocha = {
+						base = "#222222",
+						mantle = "#111111",
+						crust = "#000000",
+					},
+				},
+			})
+			vim.cmd.colorscheme('catppuccin')
+		end},
 
 	{'folke/todo-comments.nvim',
 		dependencies = {'nvim-lua/plenary.nvim',},
@@ -29,6 +46,9 @@ return {
 		},
 		lazy = true,
 		config = cfg.telescope,},
+
+	{'nullchilly/fsread.nvim',
+		cmd = 'FSToggle'},
 
 	{'lukas-reineke/indent-blankline.nvim',
 		config = cfg.indentblankline,
@@ -62,8 +82,7 @@ return {
 
 	{'ms-jpq/coq_nvim',
 		branch = 'coq',
-		init = cfg.coq,
-		event = 'InsertEnter',
+		-- init = cfg.coq,
 		dependencies = {
 			{'ms-jpq/coq.artifacts',
 					branch = 'artifacts',},

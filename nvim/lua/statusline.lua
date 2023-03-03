@@ -67,12 +67,12 @@ local SLInvV2 = {
 	['SLvmode'] =  {fg = 'GitSignsChange', bg = 'Normal', bold = true}, -- c.magenta
 	['SLterm']  =  {fg = 'Function', bg = 'Normal', bold = true}, -- b.yellow
 	['SLcenter'] = {fg = 'Normal', bg = 'Normal'},			  -- a.fg
+	['SLcmode'] = {fg = 'ErrorMsg', bg = 'Normal', bold = true},	  -- 
 }
 for i,v in pairs(SLInvV2) do highlightLike(i, v, true) end
 
 local SLHighlights = {
-	['_inv_SLcmode'] = {bg = 'ErrorMsg', fg = 'Normal', bold = true}, -- 
-	['SLcmode'] = {fg = '?ErrorMsg', bg = 'Normal', bold = true},	  -- 
+	-- ['_inv_SLcmode'] = {bg = '?ErrorMsg', fg = 'Normal', bold = true}, -- 
 	['SL_ON'] = {fg = 'GitSignsAdd', bg = 'Normal'},
 	['SL_OFF'] = {fg = 'GitSignsDelete', bg = 'Normal'},
 }
@@ -156,11 +156,27 @@ local function opts()
 	end
 	local spell_check = format_option('暈', vim.o.spell)
 	local wrap_check = format_option('', vim.o.wrap)
-	
-	return table.concat({'',
-		spell_check,
+
+	local flags = {
+		pt_pt = 'pt',
+	}
+	local langs = ''
+	if vim.opt_local.spell:get() then
+		langs = {}
+		for i,v in ipairs(vim.opt_local.spelllang:get()) do
+			langs[i] = flags[v] or v
+		end
+		langs = string.format('(%s)', table.concat(langs, '/'):upper())
+	end
+	return table.concat({'', spell_check,
+		langs,
 		wrap_check,
 		' '}, ' ')
+end
+
+local function word_count()
+	local wc = vim.fn.wordcount().visual_words and vim.fn.wordcount().visual_words or vim.fn.wordcount().words
+	return string.format(' %d words ', wc)
 end
 
 local norm = wrap_hl('Normal')
@@ -173,6 +189,7 @@ return function()
 		EQUAL,
 		getFileStr(),
 		EQUAL, norm, arrows.eleft,
+		word_count(), arrows.eleft,
 		opts(),
 		norm, arrows.eleft, " Ln %l / %L ",
 		arrows.fleft, center, " ", require('prog').get_battery_indicator(),

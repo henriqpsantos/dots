@@ -122,22 +122,6 @@ M.treesitter = function()
 	}
 end
 
-M.coq = function()
-	vim.g.coq_settings = {
-		auto_start = true,
-		display = {
-			pum = {
-				source_context = {'⎡', '⎦'},
-			},
-		},
-		clients = {
-			snippets = {
-				warn = {},
-			},
-		},
-	}
-end
-
 M.coqPost = function()
 	require("coq_3p"){
 		{ src = "vimtex", short_name = "vTEX" },
